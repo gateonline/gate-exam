@@ -20,34 +20,35 @@ let timerInterval;
    ===================================================== */
 
 /*
-   2 min 46 sec = 166 seconds
+   TOTAL EXAM TIME = 30 MINUTES
 
-   166 × 15 = 2490 seconds
-   2490 seconds = 41 min 30 sec
+   30 × 60 = 1800 seconds
 */
 
-const TIME_PER_QUESTION = 166;
-
-const EXAM_TIME =
-    TIME_PER_QUESTION * questions.length;
+const EXAM_TIME = 30 * 60;
 
 
 /* =====================================================
    PAGE LOAD
    ===================================================== */
 
-window.addEventListener("load", function () {
+window.addEventListener(
+    "load",
+    function () {
 
-    /*
-       Do NOT load the first question here.
+        /*
+           Questions do NOT load here.
 
-       The exam starts only after
-       START EXAM is clicked.
-    */
+           The exam starts only after
+           START EXAM is clicked.
+        */
 
-    console.log("POLYMER GATE loaded.");
+        console.log(
+            "POLYMER GATE loaded."
+        );
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -56,29 +57,37 @@ window.addEventListener("load", function () {
 
 function startExam() {
 
-    clearInterval(timerInterval);
+    clearInterval(
+        timerInterval
+    );
 
 
     /*
-       Reset everything
+       Reset exam
     */
 
     current = 0;
 
     answers =
-        new Array(questions.length).fill(null);
+        new Array(
+            questions.length
+        ).fill(null);
 
     review =
-        new Array(questions.length).fill(false);
+        new Array(
+            questions.length
+        ).fill(false);
 
     examEnded = false;
 
 
     /*
-       Start time
+       Record start time
     */
 
-    let startTime = Date.now();
+    let startTime =
+        Date.now();
+
 
     sessionStorage.setItem(
         "gateExamStartTime",
@@ -114,7 +123,7 @@ function startExam() {
 
 
     /*
-       Load first question
+       Load Q1
     */
 
     loadQuestion();
@@ -133,6 +142,7 @@ function startExam() {
 
     updateTimer();
 
+
     timerInterval =
         setInterval(
             updateTimer,
@@ -148,7 +158,8 @@ function startExam() {
 
 function loadQuestion() {
 
-    let q = questions[current];
+    let q =
+        questions[current];
 
 
     if (!q) {
@@ -164,12 +175,13 @@ function loadQuestion() {
 
 
     /*
-       Question text
+       Question
     */
 
     document.getElementById(
         "question"
     ).innerText =
+
         "Q" +
         (current + 1) +
         ". " +
@@ -184,7 +196,7 @@ function loadQuestion() {
 
 
     q.options.forEach(
-        function(opt, i) {
+        function (opt, i) {
 
             let checked =
                 answers[current] === i
@@ -219,7 +231,7 @@ function loadQuestion() {
 
 
     /*
-       Update question palette
+       Update palette
     */
 
     updatePalette();
@@ -263,7 +275,7 @@ function saveCurrentAnswer() {
 function saveNext() {
 
     /*
-       Save the selected answer
+       Save selected answer
     */
 
     let answered =
@@ -271,15 +283,11 @@ function saveNext() {
 
 
     /*
-       IMPORTANT:
+       If the question was marked
+       for review and is now answered,
+       remove the review status.
 
-       If the question was previously marked
-       for review AND the student has now
-       answered it, remove the review status.
-
-       Therefore:
-
-       Purple → Green
+       PURPLE → GREEN
     */
 
     if (answered) {
@@ -290,17 +298,16 @@ function saveNext() {
 
 
     /*
-       Update palette immediately.
+       Update immediately.
 
-       This fixes the problem where the
-       last question was not changing color.
+       This is important for Q15 too.
     */
 
     updatePalette();
 
 
     /*
-       Move to next question if possible.
+       Move to next question
     */
 
     if (
@@ -317,13 +324,13 @@ function saveNext() {
     else {
 
         /*
-           This is the LAST QUESTION.
+           LAST QUESTION
 
-           There is no Q16.
+           Stay on Q15.
 
-           Therefore stay on Q15,
-           but the palette has already
-           been updated to green.
+           The answer has already been saved
+           and the palette has already become
+           GREEN.
         */
 
         loadQuestion();
@@ -339,16 +346,13 @@ function saveNext() {
 
 function prevQuestion() {
 
-    /*
-       Save answer before moving back.
-    */
-
     let answered =
         saveCurrentAnswer();
 
 
     /*
-       If answered, remove review status.
+       Answered question is no longer
+       simply "review".
     */
 
     if (answered) {
@@ -380,10 +384,6 @@ function clearResponse() {
 
     answers[current] = null;
 
-    /*
-       Clear also removes review status.
-    */
-
     review[current] = false;
 
     loadQuestion();
@@ -398,18 +398,14 @@ function clearResponse() {
 function markReview() {
 
     /*
-       Save answer if one exists.
+       Save any currently selected answer.
     */
 
-    let answered =
-        saveCurrentAnswer();
+    saveCurrentAnswer();
 
 
     /*
-       Mark the question for review.
-
-       Even if answered, it will remain
-       purple until Save & Next is pressed.
+       Mark question for review.
     */
 
     review[current] = true;
@@ -453,39 +449,34 @@ function updatePalette() {
 
 
         /*
-           REVIEW HAS PRIORITY
-
-           Purple if marked for review
-           and not yet saved as a normal answer.
+           Purple = Review
         */
 
         if (review[i]) {
 
-            colorClass = "review";
+            colorClass =
+                "review";
 
         }
 
+
         /*
-           GREEN IF ANSWERED
-
-           This is checked after review.
-           However, saveNext() removes review
-           when an answer is saved.
-
-           Therefore:
-
-           Answered → Green
-           Review only → Purple
-           Nothing → Grey
+           Green = Answered
         */
 
         else if (
             answers[i] !== null
         ) {
 
-            colorClass = "answered";
+            colorClass =
+                "answered";
 
         }
+
+
+        /*
+           Grey = Not Answered
+        */
 
 
         palette.innerHTML += `
@@ -513,17 +504,9 @@ function updatePalette() {
 
 function jump(i) {
 
-    /*
-       Save current answer before jumping.
-    */
-
     let answered =
         saveCurrentAnswer();
 
-
-    /*
-       If answered, remove review status.
-    */
 
     if (answered) {
 
@@ -536,6 +519,7 @@ function jump(i) {
 
 
     current = i;
+
 
     loadQuestion();
 
@@ -572,13 +556,16 @@ function updateTimer() {
 
     let elapsed =
         Math.floor(
-            (Date.now() - startTime)
-            / 1000
+            (
+                Date.now() -
+                startTime
+            ) / 1000
         );
 
 
     let remaining =
-        EXAM_TIME - elapsed;
+        EXAM_TIME -
+        elapsed;
 
 
     /*
@@ -600,12 +587,12 @@ function updateTimer() {
         examEnded = true;
 
 
-        alert(
-            "Time is over. Your exam will now be submitted."
-        );
+        /*
+           Automatically open
+           name-entry screen.
+        */
 
-
-        submitExam(true);
+        openNameModal(true);
 
         return;
 
@@ -613,7 +600,7 @@ function updateTimer() {
 
 
     /*
-       Convert seconds to minutes
+       Minutes
     */
 
     let minutes =
@@ -622,9 +609,17 @@ function updateTimer() {
         );
 
 
+    /*
+       Seconds
+    */
+
     let seconds =
         remaining % 60;
 
+
+    /*
+       Display
+    */
 
     document.getElementById(
         "timer"
@@ -644,7 +639,7 @@ function updateTimer() {
 
 
     /*
-       Last 5 minutes → red
+       Last 5 minutes = red
     */
 
     let timerBox =
@@ -653,7 +648,9 @@ function updateTimer() {
         );
 
 
-    if (remaining <= 300) {
+    if (
+        remaining <= 300
+    ) {
 
         timerBox.classList.add(
             "timer-warning"
@@ -665,26 +662,18 @@ function updateTimer() {
 
 
 /* =====================================================
-   SUBMIT EXAM
+   SUBMIT BUTTON
    ===================================================== */
 
-function submitExam(
-    autoSubmit = false
-) {
+function submitExam() {
 
     /*
-       Save the answer of the current question
-       before calculating score.
+       Save current answer
     */
 
     let answered =
         saveCurrentAnswer();
 
-
-    /*
-       If current question has an answer,
-       remove review status.
-    */
 
     if (answered) {
 
@@ -697,28 +686,43 @@ function submitExam(
 
 
     /*
-       Manual submission confirmation
+       Show custom confirmation box.
     */
 
-    if (!autoSubmit) {
+    document.getElementById(
+        "submitModal"
+    ).style.display = "flex";
 
-        let confirmation =
-            confirm(
-                "Are you sure you want to submit the exam?"
-            );
+}
 
 
-        if (!confirmation) {
+/* =====================================================
+   CLOSE SUBMIT MODAL
+   ===================================================== */
 
-            return;
+function closeSubmitModal() {
 
-        }
+    document.getElementById(
+        "submitModal"
+    ).style.display = "none";
 
-    }
+}
 
+
+/* =====================================================
+   CONFIRM SUBMISSION
+   ===================================================== */
+
+function confirmSubmit() {
+
+    closeSubmitModal();
+
+
+    /*
+       Stop timer
+    */
 
     examEnded = true;
-
 
     clearInterval(
         timerInterval
@@ -726,18 +730,140 @@ function submitExam(
 
 
     /*
-       Ask for name
+       Open custom name box
+    */
+
+    openNameModal(false);
+
+}
+
+
+/* =====================================================
+   NAME MODAL
+   ===================================================== */
+
+function openNameModal(autoSubmit) {
+
+    /*
+       If timer expired, stop timer.
+    */
+
+    if (autoSubmit) {
+
+        examEnded = true;
+
+        clearInterval(
+            timerInterval
+        );
+
+    }
+
+
+    /*
+       Save current answer one final time.
+    */
+
+    let answered =
+        saveCurrentAnswer();
+
+
+    if (answered) {
+
+        review[current] = false;
+
+    }
+
+
+    updatePalette();
+
+
+    /*
+       Show name box
+    */
+
+    document.getElementById(
+        "candidateName"
+    ).value = "";
+
+
+    document.getElementById(
+        "nameModal"
+    ).style.display = "flex";
+
+
+    /*
+       Automatically focus input.
+    */
+
+    setTimeout(
+        function () {
+
+            document.getElementById(
+                "candidateName"
+            ).focus();
+
+        },
+        100
+    );
+
+}
+
+
+/* =====================================================
+   CLOSE NAME MODAL
+   ===================================================== */
+
+function closeNameModal() {
+
+    /*
+       If the exam has ended because
+       of manual submission, don't allow
+       going back to exam.
+
+       We simply keep the modal open.
+    */
+
+    if (examEnded) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "nameModal"
+    ).style.display = "none";
+
+}
+
+
+/* =====================================================
+   FINAL SUBMIT
+   ===================================================== */
+
+function finalSubmit() {
+
+    /*
+       Get name
     */
 
     let name =
-        prompt(
-            "Enter your name"
-        );
+        document.getElementById(
+            "candidateName"
+        ).value.trim();
 
 
-    if (!name) {
+    /*
+       Name required
+    */
 
-        name = "Unknown";
+    if (name === "") {
+
+        document.getElementById(
+            "candidateName"
+        ).focus();
+
+        return;
 
     }
 
@@ -767,9 +893,9 @@ function submitExam(
     }
 
 
-    /* =================================================
+    /*
        GOOGLE APPS SCRIPT URL
-       ================================================= */
+    */
 
     let url =
         "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
@@ -781,11 +907,13 @@ function submitExam(
 
     url +=
         "?name=" +
-        encodeURIComponent(name);
+        encodeURIComponent(
+            name
+        );
 
 
     /*
-       Questions
+       All answers
     */
 
     for (
@@ -822,20 +950,11 @@ function submitExam(
         );
 
 
-    /* =================================================
-       SEND DATA WITHOUT OPENING GOOGLE SCRIPT PAGE
-       ================================================= */
-
     /*
-       Instead of:
+       Send to Google Sheets silently.
 
-       window.open(url)
-
-       we create an invisible iframe.
-
-       This sends the response to Google Sheets
-       without taking the student away from
-       the exam page.
+       The student will NOT be taken
+       to the Google Apps Script page.
     */
 
     let iframe =
@@ -844,57 +963,82 @@ function submitExam(
         );
 
 
-    iframe.style.display = "none";
+    iframe.style.display =
+        "none";
 
-    iframe.src = url;
+
+    iframe.src =
+        url;
+
 
     document.body.appendChild(
         iframe
     );
 
 
-    /* =================================================
-       SHOW SCORE TO STUDENT
-       ================================================= */
+    /*
+       Hide name modal
+    */
+
+    document.getElementById(
+        "nameModal"
+    ).style.display = "none";
+
+
+    /*
+       Show result
+    */
+
+    document.getElementById(
+        "resultName"
+    ).innerText =
+        "Candidate: " +
+        name;
+
+
+    document.getElementById(
+        "resultScore"
+    ).innerText =
+        score +
+        " / " +
+        questions.length;
+
+
+    /*
+       Give Google Apps Script
+       a moment to receive data.
+    */
 
     setTimeout(
-        function() {
+        function () {
 
-            alert(
-
-                "EXAM SUBMITTED SUCCESSFULLY!\n\n" +
-
-                "Name: " +
-                name +
-
-                "\n\nScore: " +
-                score +
-                " / " +
-                questions.length
-
-            );
-
-
-            /*
-               Remove timer information
-            */
-
-            sessionStorage.removeItem(
-                "gateExamStartTime"
-            );
-
-
-            /*
-               Return to start screen
-            */
-
-            location.reload();
+            document.getElementById(
+                "resultModal"
+            ).style.display = "flex";
 
         },
-
-        1000
-
+        800
     );
+
+
+    /*
+       Remove timer data
+    */
+
+    sessionStorage.removeItem(
+        "gateExamStartTime"
+    );
+
+}
+
+
+/* =====================================================
+   RESULT
+   ===================================================== */
+
+function closeResultAndReload() {
+
+    location.reload();
 
 }
 
@@ -902,11 +1046,6 @@ function submitExam(
 /* =====================================================
    CALCULATOR
    ===================================================== */
-
-
-/*
-   OPEN CALCULATOR
-*/
 
 function openCalculator() {
 
@@ -917,10 +1056,6 @@ function openCalculator() {
 }
 
 
-/*
-   CLOSE CALCULATOR
-*/
-
 function closeCalculator() {
 
     document.getElementById(
@@ -929,10 +1064,6 @@ function closeCalculator() {
 
 }
 
-
-/*
-   INPUT
-*/
 
 function calcInput(value) {
 
@@ -947,10 +1078,6 @@ function calcInput(value) {
 }
 
 
-/*
-   CLEAR
-*/
-
 function calcClear() {
 
     document.getElementById(
@@ -959,10 +1086,6 @@ function calcClear() {
 
 }
 
-
-/*
-   DELETE
-*/
 
 function calcBackspace() {
 
@@ -981,10 +1104,6 @@ function calcBackspace() {
 }
 
 
-/*
-   CALCULATE
-*/
-
 function calculateResult() {
 
     let display =
@@ -1000,7 +1119,7 @@ function calculateResult() {
     try {
 
         /*
-           Convert ^ to **
+           x^y → JavaScript **
         */
 
         expression =
@@ -1011,8 +1130,7 @@ function calculateResult() {
 
 
         /*
-           Convert sqrt(
-           to Math.sqrt(
+           sqrt(
         */
 
         expression =
@@ -1022,12 +1140,20 @@ function calculateResult() {
             );
 
 
+        /*
+           Calculate
+        */
+
         let result =
             Function(
                 "return " +
                 expression
             )();
 
+
+        /*
+           Limit decimal length
+        */
 
         if (
             typeof result === "number" &&
