@@ -19,6 +19,13 @@ let timerInterval;
    EXAM TIME
    ===================================================== */
 
+/*
+   2 min 46 sec = 166 seconds
+
+   166 × 15 = 2490 seconds
+   2490 seconds = 41 min 30 sec
+*/
+
 const TIME_PER_QUESTION = 166;
 
 const EXAM_TIME =
@@ -31,14 +38,14 @@ const EXAM_TIME =
 
 window.addEventListener("load", function () {
 
-    console.log("POLYMER GATE loaded.");
-
     /*
-       IMPORTANT:
-       We DO NOT load a question here.
+       Do NOT load the first question here.
 
-       The exam hasn't started yet.
+       The exam starts only after
+       START EXAM is clicked.
     */
+
+    console.log("POLYMER GATE loaded.");
 
 });
 
@@ -49,16 +56,11 @@ window.addEventListener("load", function () {
 
 function startExam() {
 
-    /*
-       Make sure a previous exam timer
-       is completely removed.
-    */
-
     clearInterval(timerInterval);
 
 
     /*
-       Reset exam data.
+       Reset everything
     */
 
     current = 0;
@@ -73,7 +75,7 @@ function startExam() {
 
 
     /*
-       Start a NEW timer.
+       Start time
     */
 
     let startTime = Date.now();
@@ -85,7 +87,7 @@ function startExam() {
 
 
     /*
-       Hide start screen.
+       Hide start screen
     */
 
     document.getElementById(
@@ -94,7 +96,7 @@ function startExam() {
 
 
     /*
-       Show exam.
+       Show exam
     */
 
     document.getElementById(
@@ -103,7 +105,7 @@ function startExam() {
 
 
     /*
-       Enable calculator.
+       Enable calculator
     */
 
     document.getElementById(
@@ -112,21 +114,21 @@ function startExam() {
 
 
     /*
-       Load first question.
+       Load first question
     */
 
     loadQuestion();
 
 
     /*
-       Create question palette.
+       Create palette
     */
 
     updatePalette();
 
 
     /*
-       Start timer.
+       Start timer
     */
 
     updateTimer();
@@ -161,6 +163,10 @@ function loadQuestion() {
     }
 
 
+    /*
+       Question text
+    */
+
     document.getElementById(
         "question"
     ).innerText =
@@ -169,6 +175,10 @@ function loadQuestion() {
         ". " +
         q.question;
 
+
+    /*
+       Options
+    */
 
     let html = "";
 
@@ -187,15 +197,10 @@ function loadQuestion() {
                 <label>
 
                     <input
-
                         type="radio"
-
                         name="option"
-
                         value="${i}"
-
                         ${checked}
-
                     >
 
                     ${opt}
@@ -212,6 +217,10 @@ function loadQuestion() {
         "options"
     ).innerHTML = html;
 
+
+    /*
+       Update question palette
+    */
 
     updatePalette();
 
@@ -237,7 +246,12 @@ function saveCurrentAnswer() {
                 selected.value
             );
 
+        return true;
+
     }
+
+
+    return false;
 
 }
 
@@ -248,8 +262,46 @@ function saveCurrentAnswer() {
 
 function saveNext() {
 
-    saveCurrentAnswer();
+    /*
+       Save the selected answer
+    */
 
+    let answered =
+        saveCurrentAnswer();
+
+
+    /*
+       IMPORTANT:
+
+       If the question was previously marked
+       for review AND the student has now
+       answered it, remove the review status.
+
+       Therefore:
+
+       Purple → Green
+    */
+
+    if (answered) {
+
+        review[current] = false;
+
+    }
+
+
+    /*
+       Update palette immediately.
+
+       This fixes the problem where the
+       last question was not changing color.
+    */
+
+    updatePalette();
+
+
+    /*
+       Move to next question if possible.
+    */
 
     if (
         current <
@@ -257,6 +309,22 @@ function saveNext() {
     ) {
 
         current++;
+
+        loadQuestion();
+
+    }
+
+    else {
+
+        /*
+           This is the LAST QUESTION.
+
+           There is no Q16.
+
+           Therefore stay on Q15,
+           but the palette has already
+           been updated to green.
+        */
 
         loadQuestion();
 
@@ -271,7 +339,26 @@ function saveNext() {
 
 function prevQuestion() {
 
-    saveCurrentAnswer();
+    /*
+       Save answer before moving back.
+    */
+
+    let answered =
+        saveCurrentAnswer();
+
+
+    /*
+       If answered, remove review status.
+    */
+
+    if (answered) {
+
+        review[current] = false;
+
+    }
+
+
+    updatePalette();
 
 
     if (current > 0) {
@@ -286,12 +373,16 @@ function prevQuestion() {
 
 
 /* =====================================================
-   CLEAR
+   CLEAR RESPONSE
    ===================================================== */
 
 function clearResponse() {
 
     answers[current] = null;
+
+    /*
+       Clear also removes review status.
+    */
 
     review[current] = false;
 
@@ -306,9 +397,23 @@ function clearResponse() {
 
 function markReview() {
 
-    saveCurrentAnswer();
+    /*
+       Save answer if one exists.
+    */
+
+    let answered =
+        saveCurrentAnswer();
+
+
+    /*
+       Mark the question for review.
+
+       Even if answered, it will remain
+       purple until Save & Next is pressed.
+    */
 
     review[current] = true;
+
 
     updatePalette();
 
@@ -348,7 +453,10 @@ function updatePalette() {
 
 
         /*
-           Review gets priority.
+           REVIEW HAS PRIORITY
+
+           Purple if marked for review
+           and not yet saved as a normal answer.
         */
 
         if (review[i]) {
@@ -356,6 +464,20 @@ function updatePalette() {
             colorClass = "review";
 
         }
+
+        /*
+           GREEN IF ANSWERED
+
+           This is checked after review.
+           However, saveNext() removes review
+           when an answer is saved.
+
+           Therefore:
+
+           Answered → Green
+           Review only → Purple
+           Nothing → Grey
+        */
 
         else if (
             answers[i] !== null
@@ -391,7 +513,27 @@ function updatePalette() {
 
 function jump(i) {
 
-    saveCurrentAnswer();
+    /*
+       Save current answer before jumping.
+    */
+
+    let answered =
+        saveCurrentAnswer();
+
+
+    /*
+       If answered, remove review status.
+    */
+
+    if (answered) {
+
+        review[current] = false;
+
+    }
+
+
+    updatePalette();
+
 
     current = i;
 
@@ -470,6 +612,10 @@ function updateTimer() {
     }
 
 
+    /*
+       Convert seconds to minutes
+    */
+
     let minutes =
         Math.floor(
             remaining / 60
@@ -498,7 +644,7 @@ function updateTimer() {
 
 
     /*
-       Last 5 minutes = red
+       Last 5 minutes → red
     */
 
     let timerBox =
@@ -526,11 +672,32 @@ function submitExam(
     autoSubmit = false
 ) {
 
-    saveCurrentAnswer();
+    /*
+       Save the answer of the current question
+       before calculating score.
+    */
+
+    let answered =
+        saveCurrentAnswer();
 
 
     /*
-       Manual submission confirmation.
+       If current question has an answer,
+       remove review status.
+    */
+
+    if (answered) {
+
+        review[current] = false;
+
+    }
+
+
+    updatePalette();
+
+
+    /*
+       Manual submission confirmation
     */
 
     if (!autoSubmit) {
@@ -552,13 +719,14 @@ function submitExam(
 
     examEnded = true;
 
+
     clearInterval(
         timerInterval
     );
 
 
     /*
-       Candidate name
+       Ask for name
     */
 
     let name =
@@ -599,16 +767,16 @@ function submitExam(
     }
 
 
-    /*
+    /* =================================================
        GOOGLE APPS SCRIPT URL
-    */
+       ================================================= */
 
     let url =
         "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
 
 
     /*
-       NAME
+       Name
     */
 
     url +=
@@ -617,7 +785,7 @@ function submitExam(
 
 
     /*
-       QUESTIONS
+       Questions
     */
 
     for (
@@ -644,7 +812,7 @@ function submitExam(
 
 
     /*
-       SCORE
+       Score
     */
 
     url +=
@@ -654,39 +822,79 @@ function submitExam(
         );
 
 
+    /* =================================================
+       SEND DATA WITHOUT OPENING GOOGLE SCRIPT PAGE
+       ================================================= */
+
     /*
-       SEND TO GOOGLE SHEETS
+       Instead of:
+
+       window.open(url)
+
+       we create an invisible iframe.
+
+       This sends the response to Google Sheets
+       without taking the student away from
+       the exam page.
     */
 
-    window.open(
-        url,
-        "_blank"
+    let iframe =
+        document.createElement(
+            "iframe"
+        );
+
+
+    iframe.style.display = "none";
+
+    iframe.src = url;
+
+    document.body.appendChild(
+        iframe
     );
 
 
-    alert(
-        "Exam submitted successfully!\n\n" +
-        "Score: " +
-        score +
-        " / " +
-        questions.length
+    /* =================================================
+       SHOW SCORE TO STUDENT
+       ================================================= */
+
+    setTimeout(
+        function() {
+
+            alert(
+
+                "EXAM SUBMITTED SUCCESSFULLY!\n\n" +
+
+                "Name: " +
+                name +
+
+                "\n\nScore: " +
+                score +
+                " / " +
+                questions.length
+
+            );
+
+
+            /*
+               Remove timer information
+            */
+
+            sessionStorage.removeItem(
+                "gateExamStartTime"
+            );
+
+
+            /*
+               Return to start screen
+            */
+
+            location.reload();
+
+        },
+
+        1000
+
     );
-
-
-    /*
-       Remove timer.
-    */
-
-    sessionStorage.removeItem(
-        "gateExamStartTime"
-    );
-
-
-    /*
-       Reload.
-    */
-
-    location.reload();
 
 }
 
@@ -697,7 +905,7 @@ function submitExam(
 
 
 /*
-   OPEN
+   OPEN CALCULATOR
 */
 
 function openCalculator() {
@@ -710,7 +918,7 @@ function openCalculator() {
 
 
 /*
-   CLOSE
+   CLOSE CALCULATOR
 */
 
 function closeCalculator() {
@@ -791,12 +999,21 @@ function calculateResult() {
 
     try {
 
+        /*
+           Convert ^ to **
+        */
+
         expression =
             expression.replace(
                 /\^/g,
                 "**"
             );
 
+
+        /*
+           Convert sqrt(
+           to Math.sqrt(
+        */
 
         expression =
             expression.replace(
