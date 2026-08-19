@@ -1,115 +1,368 @@
-let current = 0
-let answers = new Array(questions.length).fill(null)
-let review = new Array(questions.length).fill(false)
+let current = 0;
 
-loadQuestion()
+let answers = new Array(questions.length).fill(null);
+
+let review = new Array(questions.length).fill(false);
+
+loadQuestion();
+
 
 function loadQuestion(){
 
-let q = questions[current]
+    let q = questions[current];
 
-document.getElementById("question").innerText =
-"Q" + (current+1) + ". " + q.question
+    document.getElementById("question").innerText =
+        "Q" + (current + 1) + ". " + q.question;
 
-let html = ""
+    let html = "";
 
-q.options.forEach((opt,i)=>{
+    q.options.forEach((opt, i) => {
 
-let checked = answers[current]==i ? "checked" : ""
+        if(q.type === "MCQ"){
 
-html += `
-<label>
-<input type="radio" name="option" value="${i}" ${checked}>
-${opt}
-</label><br>
-`
-})
+            let checked =
+                answers[current] === i ? "checked" : "";
 
-document.getElementById("options").innerHTML = html
+            html += `
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="option"
+                        value="${i}"
+                        ${checked}>
+                    <span>${opt}</span>
+                </label>
+            `;
 
-updatePalette()
+        }
+
+        else if(q.type === "MSQ"){
+
+            let checked = "";
+
+            if(
+                Array.isArray(answers[current]) &&
+                answers[current].includes(i)
+            ){
+                checked = "checked";
+            }
+
+            html += `
+                <label class="option">
+                    <input
+                        type="checkbox"
+                        name="option"
+                        value="${i}"
+                        ${checked}>
+                    <span>${opt}</span>
+                </label>
+            `;
+        }
+
+    });
+
+    document.getElementById("options").innerHTML = html;
+
+    updatePalette();
 }
+
+
+function saveAnswer(){
+
+    let q = questions[current];
+
+    if(q.type === "MCQ"){
+
+        let selected =
+            document.querySelector(
+                'input[name="option"]:checked'
+            );
+
+        if(selected){
+
+            answers[current] =
+                parseInt(selected.value);
+
+        }
+
+    }
+
+    else if(q.type === "MSQ"){
+
+        let selected =
+            document.querySelectorAll(
+                'input[name="option"]:checked'
+            );
+
+        let selectedAnswers = [];
+
+        selected.forEach(item => {
+
+            selectedAnswers.push(
+                parseInt(item.value)
+            );
+
+        });
+
+        if(selectedAnswers.length > 0){
+
+            answers[current] = selectedAnswers;
+
+        }
+        else{
+
+            answers[current] = null;
+
+        }
+
+    }
+}
+
 
 function saveNext(){
 
-let selected = document.querySelector('input[name="option"]:checked')
+    saveAnswer();
 
-if(selected){
-answers[current] = parseInt(selected.value)
+    if(current < questions.length - 1){
+
+        current++;
+
+        loadQuestion();
+
+    }
+
 }
 
-current++
-
-if(current < questions.length){
-loadQuestion()
-}
-}
 
 function prevQuestion(){
 
-if(current>0){
-current--
-loadQuestion()
+    saveAnswer();
+
+    if(current > 0){
+
+        current--;
+
+        loadQuestion();
+
+    }
+
 }
-}
+
 
 function clearResponse(){
-answers[current] = null
-loadQuestion()
+
+    answers[current] = null;
+
+    loadQuestion();
+
 }
 
+
 function markReview(){
-review[current] = true
-updatePalette()
+
+    saveAnswer();
+
+    review[current] = true;
+
+    updatePalette();
+
 }
+
 
 function updatePalette(){
 
-let palette = document.getElementById("palette")
-palette.innerHTML = ""
+    let palette =
+        document.getElementById("palette");
 
-for(let i=0;i<questions.length;i++){
+    palette.innerHTML = "";
 
-let color = "#ccc"
+    for(let i = 0; i < questions.length; i++){
 
-if(review[i]) color = "purple"
-else if(answers[i]!=null) color = "green"
+        let colorClass = "not-answered";
 
-palette.innerHTML +=
-`<button style="background:${color}"
-onclick="jump(${i})">${i+1}</button>`
+        if(review[i]){
+
+            colorClass = "review";
+
+        }
+
+        else if(answers[i] !== null){
+
+            colorClass = "answered";
+
+        }
+
+        palette.innerHTML += `
+            <button
+                class="${colorClass}"
+                onclick="jump(${i})">
+                ${i + 1}
+            </button>
+        `;
+    }
 }
-}
+
 
 function jump(i){
-current = i
-loadQuestion()
+
+    saveAnswer();
+
+    current = i;
+
+    loadQuestion();
+
 }
+
+
+function arraysEqual(a, b){
+
+    if(!Array.isArray(a) || !Array.isArray(b)){
+
+        return false;
+
+    }
+
+    if(a.length !== b.length){
+
+        return false;
+
+    }
+
+    let x = [...a].sort((a,b) => a-b);
+
+    let y = [...b].sort((a,b) => a-b);
+
+    return x.every(
+        (value, index) =>
+            value === y[index]
+    );
+
+}
+
+
+function isCorrect(i){
+
+    let q = questions[i];
+
+    if(q.type === "MCQ"){
+
+        return answers[i] === q.answer;
+
+    }
+
+    if(q.type === "MSQ"){
+
+        return arraysEqual(
+            answers[i],
+            q.answers
+        );
+
+    }
+
+    return false;
+
+}
+
 
 function submitExam(){
 
-let name = prompt("Enter your name")
+    saveAnswer();
 
-let score = 0
+    let name =
+        prompt("Enter your name");
 
-for(let i=0;i<questions.length;i++){
-if(answers[i] == questions[i].answer){
-score++
-}
-}
+    if(!name){
 
-let url = "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec"
+        return;
 
-url += "?name=" + encodeURIComponent(name)
-url += "&q1=" + answers[0]
-url += "&q2=" + answers[1]
-url += "&q3=" + answers[2]
-url += "&score=" + score
+    }
 
-window.open(url)
+    let score = 0;
 
-alert("Exam submitted. Score: " + score)
+    for(let i = 0; i < questions.length; i++){
 
-location.reload()
+        if(isCorrect(i)){
+
+            score++;
+
+        }
+
+    }
+
+
+    /*
+    ==================================================
+    GOOGLE APPS SCRIPT WEB APP URL
+    ==================================================
+
+    REPLACE THE URL BELOW with your current
+    Google Apps Script /exec URL.
+
+    Example:
+    https://script.google.com/macros/s/XXXXXXXX/exec
+    */
+
+    let url =
+    "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
+
+
+    url +=
+        "?name=" +
+        encodeURIComponent(name);
+
+
+    for(
+        let i = 0;
+        i < answers.length;
+        i++
+    ){
+
+        let value = answers[i];
+
+        /*
+        MSQ answers such as
+        [0,1,2] become "0,1,2"
+        */
+
+        if(Array.isArray(value)){
+
+            value = value.join(",");
+
+        }
+
+        if(value === null){
+
+            value = "";
+
+        }
+
+        url +=
+            "&q" +
+            (i + 1) +
+            "=" +
+            encodeURIComponent(value);
+
+    }
+
+
+    url +=
+        "&score=" +
+        score;
+
+
+    /*
+    Send the result to Google Apps Script.
+    */
+
+    window.open(url, "_blank");
+
+
+    alert(
+        "Exam submitted!\n\n" +
+        "Score: " +
+        score +
+        " / " +
+        questions.length
+    );
 
 }
