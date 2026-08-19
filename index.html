@@ -2,24 +2,72 @@
 <html>
 
 <head>
+
     <title>POLYMER GATE - GATE XE-F Mock Test</title>
+
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
+
+<!-- =========================
+     HEADER
+     ========================= -->
+
 <div class="header">
-    <h2>POLYMER GATE - GATE XE-F Mock Test</h2>
+
+    <div class="header-title">
+        POLYMER GATE - GATE XE-F Mock Test
+    </div>
+
+    <div class="header-right">
+
+        <div class="timer-box">
+
+            <span class="timer-label">
+                Time Left
+            </span>
+
+            <span id="timer">
+                41:30
+            </span>
+
+        </div>
+
+        <button
+            class="calculator-button"
+            onclick="openCalculator()">
+
+            🧮 Calculator
+
+        </button>
+
+    </div>
+
 </div>
+
+
+<!-- =========================
+     MAIN CONTAINER
+     ========================= -->
 
 <div class="container">
 
-    <!-- LEFT SIDE: QUESTION -->
+
+    <!-- =========================
+         QUESTION AREA
+         ========================= -->
+
     <div class="question-area">
 
         <h3 id="question"></h3>
 
         <div id="options"></div>
+
+
+        <!-- BUTTONS -->
 
         <div class="buttons">
 
@@ -39,8 +87,12 @@
                 Save & Next
             </button>
 
-            <button onclick="submitExam()">
+            <button
+                class="submit-button"
+                onclick="submitExam()">
+
                 Submit
+
             </button>
 
         </div>
@@ -48,41 +100,60 @@
     </div>
 
 
-    <!-- RIGHT SIDE: QUESTION PALETTE -->
+    <!-- =========================
+         QUESTION PALETTE
+         ========================= -->
+
     <div class="palette-section">
 
-        <h3>Question Palette</h3>
+        <h3>
+            Question Palette
+        </h3>
 
 
-        <!-- COLOR LEGEND -->
+        <!-- LEGEND -->
 
         <div class="legend">
 
+
             <div class="legend-item">
 
-                <span class="legend-box answered"></span>
+                <span
+                    class="legend-box answered">
+                </span>
 
-                <span>Answered</span>
+                <span>
+                    Answered
+                </span>
 
             </div>
 
 
             <div class="legend-item">
 
-                <span class="legend-box review"></span>
+                <span
+                    class="legend-box review">
+                </span>
 
-                <span>Marked for Review</span>
+                <span>
+                    Marked for Review
+                </span>
 
             </div>
 
 
             <div class="legend-item">
 
-                <span class="legend-box not-answered"></span>
+                <span
+                    class="legend-box not-answered">
+                </span>
 
-                <span>Not Answered</span>
+                <span>
+                    Not Answered
+                </span>
 
             </div>
+
 
         </div>
 
@@ -92,12 +163,175 @@
         <div
             class="palette"
             id="palette">
+
         </div>
 
     </div>
 
 </div>
 
+
+
+<!-- =========================
+     CALCULATOR
+     ========================= -->
+
+<div
+    id="calculator"
+    class="calculator-overlay">
+
+
+    <div class="calculator">
+
+
+        <!-- CALCULATOR HEADER -->
+
+        <div class="calculator-header">
+
+            <span>
+                GATE Calculator
+            </span>
+
+            <button
+                onclick="closeCalculator()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- DISPLAY -->
+
+        <input
+            type="text"
+            id="calc-display"
+            class="calc-display"
+            readonly
+        >
+
+
+        <!-- BUTTONS -->
+
+        <div class="calc-buttons">
+
+
+            <button onclick="calcClear()">
+                C
+            </button>
+
+            <button onclick="calcBackspace()">
+                DEL
+            </button>
+
+            <button onclick="calcInput('(')">
+                (
+            </button>
+
+            <button onclick="calcInput(')')">
+                )
+            </button>
+
+            <button onclick="calcInput('/')">
+                ÷
+            </button>
+
+
+            <button onclick="calcInput('7')">
+                7
+            </button>
+
+            <button onclick="calcInput('8')">
+                8
+            </button>
+
+            <button onclick="calcInput('9')">
+                9
+            </button>
+
+            <button onclick="calcInput('*')">
+                ×
+            </button>
+
+            <button onclick="calcInput('sqrt(')">
+                √
+            </button>
+
+
+            <button onclick="calcInput('4')">
+                4
+            </button>
+
+            <button onclick="calcInput('5')">
+                5
+            </button>
+
+            <button onclick="calcInput('6')">
+                6
+            </button>
+
+            <button onclick="calcInput('-')">
+                −
+            </button>
+
+            <button onclick="calcInput('^')">
+                xʸ
+            </button>
+
+
+            <button onclick="calcInput('1')">
+                1
+            </button>
+
+            <button onclick="calcInput('2')">
+                2
+            </button>
+
+            <button onclick="calcInput('3')">
+                3
+            </button>
+
+            <button onclick="calcInput('+')">
+                +
+            </button>
+
+            <button onclick="calcInput('Math.PI')">
+                π
+            </button>
+
+
+            <button onclick="calcInput('0')">
+                0
+            </button>
+
+            <button onclick="calcInput('.')">
+                .
+            </button>
+
+            <button onclick="calcInput('Math.sin(')">
+                sin
+            </button>
+
+            <button onclick="calcInput('Math.cos(')">
+                cos
+            </button>
+
+            <button onclick="calculateResult()">
+                =
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT FILES
+     ========================= -->
 
 <script src="questions.js"></script>
 
