@@ -1,53 +1,13 @@
-<!DOCTYPE html>
-<html>
+<div class="palette-section">
 
-<head>
-    <title>POLYMER GATE - GATE XE-F Mock Test</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <h3>Question Palette</h3>
 
-<body>
-
-<div class="header">
-    <h2>POLYMER GATE - GATE XE-F Mock Test</h2>
-</div>
-
-<div class="container">
-
-    <div class="question-area">
-
-        <h3 id="question"></h3>
-
-        <div id="options"></div>
-
-        <div class="buttons">
-            <button onclick="prevQuestion()">Previous</button>
-            <button onclick="clearResponse()">Clear</button>
-            <button onclick="markReview()">Mark for Review</button>
-            <button onclick="saveNext()">Save & Next</button>
-            <button onclick="submitExam()">Submit</button>
-        </div>
-
+    <div class="legend">
+        <span class="legend-box answered"></span> Answered
+        <span class="legend-box review"></span> Review
+        <span class="legend-box not-answered"></span> Not Answered
     </div>
 
-    <div class="palette-section">
-
-        <h3>Question Palette</h3>
-
-        <div class="legend">
-            <span class="legend-box answered"></span> Answered
-            <span class="legend-box review"></span> Review
-            <span class="legend-box not-answered"></span> Not Answered
-        </div>
-
-        <div class="palette" id="palette"></div>
-
-    </div>
+    <div class="palette" id="palette"></div>
 
 </div>
-
-<script src="questions.js"></script>
-<script src="script.js"></script>
-
-</body>
-</html>
