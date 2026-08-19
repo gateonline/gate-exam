@@ -1,368 +1,355 @@
-let current = 0;
+/* =========================================
+   GENERAL PAGE
+   ========================================= */
 
-let answers = new Array(questions.length).fill(null);
+body {
 
-let review = new Array(questions.length).fill(false);
+    font-family: Arial, sans-serif;
 
-loadQuestion();
+    margin: 0;
 
-
-function loadQuestion(){
-
-    let q = questions[current];
-
-    document.getElementById("question").innerText =
-        "Q" + (current + 1) + ". " + q.question;
-
-    let html = "";
-
-    q.options.forEach((opt, i) => {
-
-        if(q.type === "MCQ"){
-
-            let checked =
-                answers[current] === i ? "checked" : "";
-
-            html += `
-                <label class="option">
-                    <input
-                        type="radio"
-                        name="option"
-                        value="${i}"
-                        ${checked}>
-                    <span>${opt}</span>
-                </label>
-            `;
-
-        }
-
-        else if(q.type === "MSQ"){
-
-            let checked = "";
-
-            if(
-                Array.isArray(answers[current]) &&
-                answers[current].includes(i)
-            ){
-                checked = "checked";
-            }
-
-            html += `
-                <label class="option">
-                    <input
-                        type="checkbox"
-                        name="option"
-                        value="${i}"
-                        ${checked}>
-                    <span>${opt}</span>
-                </label>
-            `;
-        }
-
-    });
-
-    document.getElementById("options").innerHTML = html;
-
-    updatePalette();
-}
-
-
-function saveAnswer(){
-
-    let q = questions[current];
-
-    if(q.type === "MCQ"){
-
-        let selected =
-            document.querySelector(
-                'input[name="option"]:checked'
-            );
-
-        if(selected){
-
-            answers[current] =
-                parseInt(selected.value);
-
-        }
-
-    }
-
-    else if(q.type === "MSQ"){
-
-        let selected =
-            document.querySelectorAll(
-                'input[name="option"]:checked'
-            );
-
-        let selectedAnswers = [];
-
-        selected.forEach(item => {
-
-            selectedAnswers.push(
-                parseInt(item.value)
-            );
-
-        });
-
-        if(selectedAnswers.length > 0){
-
-            answers[current] = selectedAnswers;
-
-        }
-        else{
-
-            answers[current] = null;
-
-        }
-
-    }
-}
-
-
-function saveNext(){
-
-    saveAnswer();
-
-    if(current < questions.length - 1){
-
-        current++;
-
-        loadQuestion();
-
-    }
+    background: #ffffff;
 
 }
 
 
-function prevQuestion(){
+/* =========================================
+   HEADER
+   ========================================= */
 
-    saveAnswer();
+.header {
 
-    if(current > 0){
+    background: #1e3a8a;
 
-        current--;
+    color: white;
 
-        loadQuestion();
-
-    }
-
-}
-
-
-function clearResponse(){
-
-    answers[current] = null;
-
-    loadQuestion();
+    padding: 15px 25px;
 
 }
 
 
-function markReview(){
+.header h2 {
 
-    saveAnswer();
+    margin: 0;
 
-    review[current] = true;
-
-    updatePalette();
+    font-size: 24px;
 
 }
 
 
-function updatePalette(){
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
 
-    let palette =
-        document.getElementById("palette");
+.container {
 
-    palette.innerHTML = "";
+    display: flex;
 
-    for(let i = 0; i < questions.length; i++){
-
-        let colorClass = "not-answered";
-
-        if(review[i]){
-
-            colorClass = "review";
-
-        }
-
-        else if(answers[i] !== null){
-
-            colorClass = "answered";
-
-        }
-
-        palette.innerHTML += `
-            <button
-                class="${colorClass}"
-                onclick="jump(${i})">
-                ${i + 1}
-            </button>
-        `;
-    }
-}
-
-
-function jump(i){
-
-    saveAnswer();
-
-    current = i;
-
-    loadQuestion();
+    min-height: 90vh;
 
 }
 
 
-function arraysEqual(a, b){
+/* =========================================
+   QUESTION AREA
+   ========================================= */
 
-    if(!Array.isArray(a) || !Array.isArray(b)){
+.question-area {
 
-        return false;
+    width: 70%;
 
-    }
+    padding: 30px;
 
-    if(a.length !== b.length){
-
-        return false;
-
-    }
-
-    let x = [...a].sort((a,b) => a-b);
-
-    let y = [...b].sort((a,b) => a-b);
-
-    return x.every(
-        (value, index) =>
-            value === y[index]
-    );
+    box-sizing: border-box;
 
 }
 
 
-function isCorrect(i){
+#question {
 
-    let q = questions[i];
+    white-space: pre-line;
 
-    if(q.type === "MCQ"){
+    font-size: 20px;
 
-        return answers[i] === q.answer;
+    line-height: 1.6;
 
-    }
-
-    if(q.type === "MSQ"){
-
-        return arraysEqual(
-            answers[i],
-            q.answers
-        );
-
-    }
-
-    return false;
+    margin-bottom: 25px;
 
 }
 
 
-function submitExam(){
+/* =========================================
+   OPTIONS
+   ========================================= */
 
-    saveAnswer();
+#options {
 
-    let name =
-        prompt("Enter your name");
+    font-size: 17px;
 
-    if(!name){
-
-        return;
-
-    }
-
-    let score = 0;
-
-    for(let i = 0; i < questions.length; i++){
-
-        if(isCorrect(i)){
-
-            score++;
-
-        }
-
-    }
+}
 
 
-    /*
-    ==================================================
-    GOOGLE APPS SCRIPT WEB APP URL
-    ==================================================
+.option {
 
-    REPLACE THE URL BELOW with your current
-    Google Apps Script /exec URL.
+    display: flex;
 
-    Example:
-    https://script.google.com/macros/s/XXXXXXXX/exec
-    */
+    align-items: flex-start;
 
-    let url =
-    "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
+    gap: 10px;
 
+    padding: 12px;
 
-    url +=
-        "?name=" +
-        encodeURIComponent(name);
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+}
 
 
-    for(
-        let i = 0;
-        i < answers.length;
-        i++
-    ){
+.option:hover {
 
-        let value = answers[i];
+    background: #f1f5f9;
 
-        /*
-        MSQ answers such as
-        [0,1,2] become "0,1,2"
-        */
-
-        if(Array.isArray(value)){
-
-            value = value.join(",");
-
-        }
-
-        if(value === null){
-
-            value = "";
-
-        }
-
-        url +=
-            "&q" +
-            (i + 1) +
-            "=" +
-            encodeURIComponent(value);
-
-    }
+}
 
 
-    url +=
-        "&score=" +
-        score;
+.option input {
+
+    margin-top: 5px;
+
+}
 
 
-    /*
-    Send the result to Google Apps Script.
-    */
+/* =========================================
+   BUTTONS
+   ========================================= */
 
-    window.open(url, "_blank");
+.buttons {
+
+    margin-top: 35px;
+
+}
 
 
-    alert(
-        "Exam submitted!\n\n" +
-        "Score: " +
-        score +
-        " / " +
-        questions.length
-    );
+.buttons button {
+
+    margin: 5px;
+
+    padding: 11px 16px;
+
+    border: 1px solid #888;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+}
+
+
+.buttons button:hover {
+
+    background: #e5e7eb;
+
+}
+
+
+/* =========================================
+   RIGHT QUESTION PALETTE
+   ========================================= */
+
+.palette-section {
+
+    width: 30%;
+
+    background: #f1f1f1;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+}
+
+
+.palette-section h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 20px;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================
+   COLOR LEGEND
+   ========================================= */
+
+.legend {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+    font-size: 14px;
+
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+/* Small boxes beside the legend */
+
+.legend-box {
+
+    width: 22px;
+
+    height: 22px;
+
+    display: inline-block;
+
+    border-radius: 3px;
+
+    border: 1px solid #777;
+
+}
+
+
+/* GREEN = ANSWERED */
+
+.legend-box.answered {
+
+    background: #22c55e;
+
+}
+
+
+/* PURPLE = MARKED FOR REVIEW */
+
+.legend-box.review {
+
+    background: #9333ea;
+
+}
+
+
+/* GREY = NOT ANSWERED */
+
+.legend-box.not-answered {
+
+    background: #d1d5db;
+
+}
+
+
+/* =========================================
+   QUESTION NUMBER GRID
+   ========================================= */
+
+.palette {
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 50px);
+
+    gap: 10px;
+
+}
+
+
+/* =========================================
+   ALL QUESTION BUTTONS
+   ========================================= */
+
+.palette button {
+
+    height: 45px;
+
+    width: 45px;
+
+    border: 1px solid #777;
+
+    border-radius: 4px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================
+   NOT ANSWERED
+   ========================================= */
+
+.palette button.not-answered {
+
+    background: #d1d5db !important;
+
+    color: #111111 !important;
+
+    border-color: #999999;
+
+}
+
+
+/* =========================================
+   ANSWERED
+   ========================================= */
+
+.palette button.answered {
+
+    background: #22c55e !important;
+
+    color: white !important;
+
+    border-color: #15803d;
+
+}
+
+
+/* =========================================
+   MARKED FOR REVIEW
+   ========================================= */
+
+.palette button.review {
+
+    background: #9333ea !important;
+
+    color: white !important;
+
+    border-color: #6b21a8;
+
+}
+
+
+/* =========================================
+   HOVER EFFECT
+   ========================================= */
+
+.palette button:hover {
+
+    opacity: 0.8;
 
 }
