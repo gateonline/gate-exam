@@ -189,7 +189,8 @@ body {
 
     border-radius: 8px;
 
-    box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.15);
 
     box-sizing: border-box;
 
@@ -390,7 +391,7 @@ body {
 
 
 /* =====================================================
-   MAIN EXAM CONTAINER
+   MAIN EXAM
    ===================================================== */
 
 .container {
@@ -609,14 +610,15 @@ body {
 
 
 /* =====================================================
-   QUESTION NUMBERS
+   PALETTE NUMBERS
    ===================================================== */
 
 .palette {
 
     display: grid;
 
-    grid-template-columns: repeat(5, 50px);
+    grid-template-columns:
+        repeat(5, 50px);
 
     gap: 10px;
 
@@ -719,7 +721,8 @@ body {
 
     border-radius: 6px;
 
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.3);
 
 }
 
@@ -785,7 +788,8 @@ body {
 
     display: grid;
 
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns:
+        repeat(5, 1fr);
 
     gap: 5px;
 
@@ -814,5 +818,215 @@ body {
 .calc-buttons button:hover {
 
     background: #e5e7eb;
+
+}
+
+
+/* =====================================================
+   CUSTOM MODALS
+   ===================================================== */
+
+.modal-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background:
+        rgba(0, 0, 0, 0.45);
+
+    z-index: 2000;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+.modal-box {
+
+    width: 420px;
+
+    max-width: 90%;
+
+    background: white;
+
+    border-radius: 6px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.3);
+
+    padding: 25px;
+
+    text-align: center;
+
+}
+
+
+.modal-box h2 {
+
+    margin-top: 0;
+
+    color: #1e3a8a;
+
+}
+
+
+.modal-box p {
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+    color: #333;
+
+}
+
+
+/* =====================================================
+   NAME INPUT
+   ===================================================== */
+
+.name-input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    font-size: 16px;
+
+    margin-top: 10px;
+
+}
+
+
+.name-input:focus {
+
+    outline: none;
+
+    border-color: #1e3a8a;
+
+}
+
+
+/* =====================================================
+   MODAL BUTTONS
+   ===================================================== */
+
+.modal-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 25px;
+
+}
+
+
+.modal-buttons button,
+.result-box > button {
+
+    padding: 10px 25px;
+
+    border-radius: 4px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+.modal-cancel {
+
+    background: white;
+
+    color: #333;
+
+    border: 1px solid #777;
+
+}
+
+
+.modal-cancel:hover {
+
+    background: #eee;
+
+}
+
+
+.modal-submit {
+
+    background: #1e3a8a;
+
+    color: white;
+
+    border: 1px solid #1e3a8a;
+
+}
+
+
+.modal-submit:hover {
+
+    background: #172554;
+
+}
+
+
+/* =====================================================
+   SCORE
+   ===================================================== */
+
+.score-display {
+
+    margin: 25px auto;
+
+    padding: 20px;
+
+    background: #f1f5f9;
+
+    border-radius: 6px;
+
+}
+
+
+.score-display span {
+
+    display: block;
+
+    font-size: 15px;
+
+    color: #555;
+
+    margin-bottom: 8px;
+
+}
+
+
+.score-display strong {
+
+    display: block;
+
+    font-size: 32px;
+
+    color: #1e3a8a;
 
 }
