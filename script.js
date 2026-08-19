@@ -1,355 +1,677 @@
-/* =========================================
-   GENERAL PAGE
-   ========================================= */
+/* =====================================================
+   EXAM VARIABLES
+   ===================================================== */
 
-body {
+let current = 0;
 
-    font-family: Arial, sans-serif;
+let answers =
+    new Array(questions.length).fill(null);
 
-    margin: 0;
-
-    background: #ffffff;
-
-}
+let review =
+    new Array(questions.length).fill(false);
 
 
-/* =========================================
-   HEADER
-   ========================================= */
+/* =====================================================
+   TIMER
+   ===================================================== */
 
-.header {
+/*
+   2 minutes 46 seconds per question
 
-    background: #1e3a8a;
+   2:46 = 166 seconds
 
-    color: white;
+   166 × 15 = 2490 seconds
 
-    padding: 15px 25px;
+   2490 seconds = 41 minutes 30 seconds
+*/
 
-}
-
-
-.header h2 {
-
-    margin: 0;
-
-    font-size: 24px;
-
-}
+const EXAM_TIME = 166 * questions.length;
 
 
-/* =========================================
-   MAIN CONTAINER
-   ========================================= */
+/*
+   Use sessionStorage so refreshing the page
+   does NOT reset the timer.
+*/
 
-.container {
-
-    display: flex;
-
-    min-height: 90vh;
-
-}
+let startTime =
+    sessionStorage.getItem("examStartTime");
 
 
-/* =========================================
-   QUESTION AREA
-   ========================================= */
+if (!startTime) {
 
-.question-area {
+    startTime = Date.now();
 
-    width: 70%;
-
-    padding: 30px;
-
-    box-sizing: border-box;
+    sessionStorage.setItem(
+        "examStartTime",
+        startTime
+    );
 
 }
 
 
-#question {
-
-    white-space: pre-line;
-
-    font-size: 20px;
-
-    line-height: 1.6;
-
-    margin-bottom: 25px;
-
-}
+let examEnded = false;
 
 
-/* =========================================
-   OPTIONS
-   ========================================= */
+/* =====================================================
+   START EXAM
+   ===================================================== */
 
-#options {
+loadQuestion();
 
-    font-size: 17px;
+updateTimer();
 
-}
-
-
-.option {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 10px;
-
-    padding: 12px;
-
-    margin-bottom: 8px;
-
-    border-radius: 5px;
-
-    cursor: pointer;
-
-}
+let timerInterval = setInterval(
+    updateTimer,
+    1000
+);
 
 
-.option:hover {
+/* =====================================================
+   TIMER FUNCTION
+   ===================================================== */
 
-    background: #f1f5f9;
+function updateTimer() {
 
-}
-
-
-.option input {
-
-    margin-top: 5px;
-
-}
+    if (examEnded) {
+        return;
+    }
 
 
-/* =========================================
-   BUTTONS
-   ========================================= */
-
-.buttons {
-
-    margin-top: 35px;
-
-}
+    let elapsed =
+        Math.floor(
+            (Date.now() - Number(startTime)) / 1000
+        );
 
 
-.buttons button {
-
-    margin: 5px;
-
-    padding: 11px 16px;
-
-    border: 1px solid #888;
-
-    background: #ffffff;
-
-    color: #111111;
-
-    border-radius: 4px;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-}
+    let remaining =
+        EXAM_TIME - elapsed;
 
 
-.buttons button:hover {
+    /*
+       Time finished
+    */
 
-    background: #e5e7eb;
+    if (remaining <= 0) {
 
-}
+        document.getElementById("timer").innerText =
+            "00:00";
+
+        clearInterval(timerInterval);
+
+        examEnded = true;
+
+        alert(
+            "Time is over. Your exam will be submitted automatically."
+        );
+
+        submitExam(true);
+
+        return;
+    }
 
 
-/* =========================================
-   RIGHT QUESTION PALETTE
-   ========================================= */
+    /*
+       Convert seconds into minutes + seconds
+    */
 
-.palette-section {
+    let minutes =
+        Math.floor(remaining / 60);
 
-    width: 30%;
 
-    background: #f1f1f1;
+    let seconds =
+        remaining % 60;
 
-    padding: 25px;
 
-    box-sizing: border-box;
+    let timeString =
+        String(minutes).padStart(2, "0")
+        + ":"
+        +
+        String(seconds).padStart(2, "0");
+
+
+    document.getElementById("timer").innerText =
+        timeString;
+
+
+    /*
+       Turn timer red when
+       less than 5 minutes remain
+    */
+
+    let timerBox =
+        document.querySelector(".timer-box");
+
+
+    if (remaining <= 300) {
+
+        timerBox.classList.add(
+            "timer-warning"
+        );
+
+    }
 
 }
 
 
-.palette-section h3 {
+/* =====================================================
+   LOAD QUESTION
+   ===================================================== */
 
-    margin-top: 0;
+function loadQuestion() {
 
-    margin-bottom: 20px;
-
-    font-size: 20px;
-
-}
+    let q = questions[current];
 
 
-/* =========================================
-   COLOR LEGEND
-   ========================================= */
-
-.legend {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-    margin-bottom: 25px;
-
-    font-size: 14px;
-
-}
+    document.getElementById("question").innerText =
+        "Q" + (current + 1) + ". " + q.question;
 
 
-.legend-item {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-}
+    let html = "";
 
 
-/* Small boxes beside the legend */
+    q.options.forEach(
+        function(opt, i) {
 
-.legend-box {
+            let checked =
+                answers[current] == i
+                    ? "checked"
+                    : "";
 
-    width: 22px;
 
-    height: 22px;
+            html += `
+                <label>
 
-    display: inline-block;
+                    <input
+                        type="radio"
+                        name="option"
+                        value="${i}"
+                        ${checked}
+                    >
 
-    border-radius: 3px;
+                    ${opt}
 
-    border: 1px solid #777;
+                </label>
+            `;
+
+        }
+    );
+
+
+    document.getElementById("options").innerHTML =
+        html;
+
+
+    updatePalette();
 
 }
 
 
-/* GREEN = ANSWERED */
+/* =====================================================
+   SAVE & NEXT
+   ===================================================== */
 
-.legend-box.answered {
+function saveNext() {
 
-    background: #22c55e;
-
-}
-
-
-/* PURPLE = MARKED FOR REVIEW */
-
-.legend-box.review {
-
-    background: #9333ea;
-
-}
+    let selected =
+        document.querySelector(
+            'input[name="option"]:checked'
+        );
 
 
-/* GREY = NOT ANSWERED */
+    if (selected) {
 
-.legend-box.not-answered {
+        answers[current] =
+            parseInt(selected.value);
 
-    background: #d1d5db;
+        /*
+           Once answered and saved,
+           remove review status.
+        */
 
-}
+        review[current] = false;
+
+    }
 
 
-/* =========================================
-   QUESTION NUMBER GRID
-   ========================================= */
+    if (current < questions.length - 1) {
 
-.palette {
+        current++;
 
-    display: grid;
+        loadQuestion();
 
-    grid-template-columns: repeat(5, 50px);
-
-    gap: 10px;
+    }
 
 }
 
 
-/* =========================================
-   ALL QUESTION BUTTONS
-   ========================================= */
+/* =====================================================
+   PREVIOUS
+   ===================================================== */
 
-.palette button {
+function prevQuestion() {
 
-    height: 45px;
+    if (current > 0) {
 
-    width: 45px;
+        current--;
 
-    border: 1px solid #777;
+        loadQuestion();
 
-    border-radius: 4px;
-
-    font-size: 15px;
-
-    cursor: pointer;
+    }
 
 }
 
 
-/* =========================================
-   NOT ANSWERED
-   ========================================= */
+/* =====================================================
+   CLEAR RESPONSE
+   ===================================================== */
 
-.palette button.not-answered {
+function clearResponse() {
 
-    background: #d1d5db !important;
+    answers[current] = null;
 
-    color: #111111 !important;
+    review[current] = false;
 
-    border-color: #999999;
-
-}
-
-
-/* =========================================
-   ANSWERED
-   ========================================= */
-
-.palette button.answered {
-
-    background: #22c55e !important;
-
-    color: white !important;
-
-    border-color: #15803d;
+    loadQuestion();
 
 }
 
 
-/* =========================================
-   MARKED FOR REVIEW
-   ========================================= */
+/* =====================================================
+   MARK FOR REVIEW
+   ===================================================== */
 
-.palette button.review {
+function markReview() {
 
-    background: #9333ea !important;
+    review[current] = true;
 
-    color: white !important;
-
-    border-color: #6b21a8;
+    updatePalette();
 
 }
 
 
-/* =========================================
-   HOVER EFFECT
-   ========================================= */
+/* =====================================================
+   QUESTION PALETTE
+   ===================================================== */
 
-.palette button:hover {
+function updatePalette() {
 
-    opacity: 0.8;
+    let palette =
+        document.getElementById("palette");
+
+
+    palette.innerHTML = "";
+
+
+    for (
+        let i = 0;
+        i < questions.length;
+        i++
+    ) {
+
+
+        let colorClass =
+            "not-answered";
+
+
+        /*
+           Review gets priority
+        */
+
+        if (review[i]) {
+
+            colorClass = "review";
+
+        }
+
+        else if (answers[i] !== null) {
+
+            colorClass = "answered";
+
+        }
+
+
+        palette.innerHTML += `
+
+            <button
+
+                class="${colorClass}"
+
+                onclick="jump(${i})">
+
+                ${i + 1}
+
+            </button>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   JUMP TO QUESTION
+   ===================================================== */
+
+function jump(i) {
+
+    current = i;
+
+    loadQuestion();
+
+}
+
+
+/* =====================================================
+   SUBMIT EXAM
+   ===================================================== */
+
+function submitExam(autoSubmit = false) {
+
+
+    if (examEnded === false) {
+
+        if (!autoSubmit) {
+
+            let confirmation =
+                confirm(
+                    "Are you sure you want to submit the exam?"
+                );
+
+
+            if (!confirmation) {
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    examEnded = true;
+
+
+    clearInterval(timerInterval);
+
+
+    /*
+       Ask candidate name
+    */
+
+    let name =
+        prompt("Enter your name");
+
+
+    if (!name) {
+
+        name = "Unknown";
+
+    }
+
+
+    /*
+       Calculate score
+    */
+
+    let score = 0;
+
+
+    for (
+        let i = 0;
+        i < questions.length;
+        i++
+    ) {
+
+        if (
+            answers[i] ==
+            questions[i].answer
+        ) {
+
+            score++;
+
+        }
+
+    }
+
+
+    /*
+       GOOGLE APPS SCRIPT URL
+
+       Keep your working URL here.
+    */
+
+    let url =
+        "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
+
+
+    /*
+       Candidate name
+    */
+
+    url +=
+        "?name=" +
+        encodeURIComponent(name);
+
+
+    /*
+       Send every question
+    */
+
+    for (
+        let i = 0;
+        i < questions.length;
+        i++
+    ) {
+
+        let value =
+            answers[i] === null
+                ? ""
+                : answers[i];
+
+
+        url +=
+            "&q" +
+            (i + 1) +
+            "=" +
+            encodeURIComponent(value);
+
+    }
+
+
+    /*
+       Send score
+    */
+
+    url +=
+        "&score=" +
+        encodeURIComponent(score);
+
+
+    /*
+       Send data to Google Apps Script
+    */
+
+    window.open(url, "_blank");
+
+
+    /*
+       Show result
+    */
+
+    alert(
+        "Exam submitted successfully!\n\n" +
+        "Your score: " +
+        score +
+        " / " +
+        questions.length
+    );
+
+
+    /*
+       Clear timer information
+    */
+
+    sessionStorage.removeItem(
+        "examStartTime"
+    );
+
+
+    /*
+       Reload page for a fresh attempt
+    */
+
+    location.reload();
+
+}
+
+
+/* =====================================================
+   GATE-STYLE CALCULATOR
+   ===================================================== */
+
+
+/*
+   Open calculator
+*/
+
+function openCalculator() {
+
+    document.getElementById(
+        "calculator"
+    ).style.display = "block";
+
+}
+
+
+/*
+   Close calculator
+*/
+
+function closeCalculator() {
+
+    document.getElementById(
+        "calculator"
+    ).style.display = "none";
+
+}
+
+
+/*
+   Calculator input
+*/
+
+function calcInput(value) {
+
+    let display =
+        document.getElementById(
+            "calc-display"
+        );
+
+
+    display.value += value;
+
+}
+
+
+/*
+   Clear calculator
+*/
+
+function calcClear() {
+
+    document.getElementById(
+        "calc-display"
+    ).value = "";
+
+}
+
+
+/*
+   Delete last character
+*/
+
+function calcBackspace() {
+
+    let display =
+        document.getElementById(
+            "calc-display"
+        );
+
+
+    display.value =
+        display.value.slice(0, -1);
+
+}
+
+
+/*
+   Calculate result
+*/
+
+function calculateResult() {
+
+    let display =
+        document.getElementById(
+            "calc-display"
+        );
+
+
+    let expression =
+        display.value;
+
+
+    try {
+
+        /*
+           Convert ^ into JavaScript **
+        */
+
+        expression =
+            expression.replace(
+                /\^/g,
+                "**"
+            );
+
+
+        /*
+           Evaluate expression
+        */
+
+        let result =
+            Function(
+                "return " + expression
+            )();
+
+
+        /*
+           Round very small floating
+           point errors
+        */
+
+        if (
+            typeof result === "number" &&
+            isFinite(result)
+        ) {
+
+            result =
+                Number(
+                    result.toPrecision(12)
+                );
+
+        }
+
+
+        display.value = result;
+
+    }
+
+    catch (error) {
+
+        display.value =
+            "Error";
+
+    }
 
 }
