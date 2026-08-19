@@ -1,21 +1,27 @@
-/* =====================================================
-   EXAM VARIABLES
-   ===================================================== */
+/* =========================================================
+   GATE XE-F MOCK TEST
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
 
 let current = 0;
 
-let answers =
-    new Array(questions.length).fill(null);
+let answers = new Array(questions.length).fill(null);
 
-let review =
-    new Array(questions.length).fill(false);
+let review = new Array(questions.length).fill(false);
+
+let examEnded = false;
+
+let timerInterval;
 
 
-/* =====================================================
-   TIMER
-   ===================================================== */
+/* =========================================================
+   EXAM TIME
+   =========================================================
 
-/*
    2 minutes 46 seconds per question
 
    2:46 = 166 seconds
@@ -25,141 +31,47 @@ let review =
    2490 seconds = 41 minutes 30 seconds
 */
 
-const EXAM_TIME = 166 * questions.length;
+const TIME_PER_QUESTION = 166;
+
+const EXAM_TIME =
+    TIME_PER_QUESTION * questions.length;
 
 
-/*
-   Use sessionStorage so refreshing the page
-   does NOT reset the timer.
-*/
+/* =========================================================
+   START EVERYTHING AFTER PAGE LOAD
+   ========================================================= */
 
-let startTime =
-    sessionStorage.getItem("examStartTime");
+window.addEventListener("load", function () {
 
+    console.log("Exam JavaScript loaded.");
 
-if (!startTime) {
+    loadQuestion();
 
-    startTime = Date.now();
+    updatePalette();
 
-    sessionStorage.setItem(
-        "examStartTime",
-        startTime
-    );
+    startTimer();
 
-}
+});
 
 
-let examEnded = false;
-
-
-/* =====================================================
-   START EXAM
-   ===================================================== */
-
-loadQuestion();
-
-updateTimer();
-
-let timerInterval = setInterval(
-    updateTimer,
-    1000
-);
-
-
-/* =====================================================
-   TIMER FUNCTION
-   ===================================================== */
-
-function updateTimer() {
-
-    if (examEnded) {
-        return;
-    }
-
-
-    let elapsed =
-        Math.floor(
-            (Date.now() - Number(startTime)) / 1000
-        );
-
-
-    let remaining =
-        EXAM_TIME - elapsed;
-
-
-    /*
-       Time finished
-    */
-
-    if (remaining <= 0) {
-
-        document.getElementById("timer").innerText =
-            "00:00";
-
-        clearInterval(timerInterval);
-
-        examEnded = true;
-
-        alert(
-            "Time is over. Your exam will be submitted automatically."
-        );
-
-        submitExam(true);
-
-        return;
-    }
-
-
-    /*
-       Convert seconds into minutes + seconds
-    */
-
-    let minutes =
-        Math.floor(remaining / 60);
-
-
-    let seconds =
-        remaining % 60;
-
-
-    let timeString =
-        String(minutes).padStart(2, "0")
-        + ":"
-        +
-        String(seconds).padStart(2, "0");
-
-
-    document.getElementById("timer").innerText =
-        timeString;
-
-
-    /*
-       Turn timer red when
-       less than 5 minutes remain
-    */
-
-    let timerBox =
-        document.querySelector(".timer-box");
-
-
-    if (remaining <= 300) {
-
-        timerBox.classList.add(
-            "timer-warning"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
+/* =========================================================
    LOAD QUESTION
-   ===================================================== */
+   ========================================================= */
 
 function loadQuestion() {
 
     let q = questions[current];
+
+    if (!q) {
+
+        console.error(
+            "Question not found:",
+            current
+        );
+
+        return;
+
+    }
 
 
     document.getElementById("question").innerText =
@@ -169,32 +81,30 @@ function loadQuestion() {
     let html = "";
 
 
-    q.options.forEach(
-        function(opt, i) {
+    q.options.forEach(function (opt, i) {
 
-            let checked =
-                answers[current] == i
-                    ? "checked"
-                    : "";
+        let checked =
+            answers[current] === i
+                ? "checked"
+                : "";
 
 
-            html += `
-                <label>
+        html += `
+            <label>
 
-                    <input
-                        type="radio"
-                        name="option"
-                        value="${i}"
-                        ${checked}
-                    >
+                <input
+                    type="radio"
+                    name="option"
+                    value="${i}"
+                    ${checked}
+                >
 
-                    ${opt}
+                ${opt}
 
-                </label>
-            `;
+            </label>
+        `;
 
-        }
-    );
+    });
 
 
     document.getElementById("options").innerHTML =
@@ -206,31 +116,13 @@ function loadQuestion() {
 }
 
 
-/* =====================================================
+/* =========================================================
    SAVE & NEXT
-   ===================================================== */
+   ========================================================= */
 
 function saveNext() {
 
-    let selected =
-        document.querySelector(
-            'input[name="option"]:checked'
-        );
-
-
-    if (selected) {
-
-        answers[current] =
-            parseInt(selected.value);
-
-        /*
-           Once answered and saved,
-           remove review status.
-        */
-
-        review[current] = false;
-
-    }
+    saveCurrentAnswer();
 
 
     if (current < questions.length - 1) {
@@ -244,11 +136,36 @@ function saveNext() {
 }
 
 
-/* =====================================================
+/* =========================================================
+   SAVE CURRENT ANSWER
+   ========================================================= */
+
+function saveCurrentAnswer() {
+
+    let selected =
+        document.querySelector(
+            'input[name="option"]:checked'
+        );
+
+
+    if (selected) {
+
+        answers[current] =
+            parseInt(selected.value);
+
+    }
+
+}
+
+
+/* =========================================================
    PREVIOUS
-   ===================================================== */
+   ========================================================= */
 
 function prevQuestion() {
+
+    saveCurrentAnswer();
+
 
     if (current > 0) {
 
@@ -261,9 +178,9 @@ function prevQuestion() {
 }
 
 
-/* =====================================================
+/* =========================================================
    CLEAR RESPONSE
-   ===================================================== */
+   ========================================================= */
 
 function clearResponse() {
 
@@ -276,11 +193,13 @@ function clearResponse() {
 }
 
 
-/* =====================================================
+/* =========================================================
    MARK FOR REVIEW
-   ===================================================== */
+   ========================================================= */
 
 function markReview() {
+
+    saveCurrentAnswer();
 
     review[current] = true;
 
@@ -289,14 +208,21 @@ function markReview() {
 }
 
 
-/* =====================================================
+/* =========================================================
    QUESTION PALETTE
-   ===================================================== */
+   ========================================================= */
 
 function updatePalette() {
 
     let palette =
         document.getElementById("palette");
+
+
+    if (!palette) {
+
+        return;
+
+    }
 
 
     palette.innerHTML = "";
@@ -308,14 +234,9 @@ function updatePalette() {
         i++
     ) {
 
-
         let colorClass =
             "not-answered";
 
-
-        /*
-           Review gets priority
-        */
 
         if (review[i]) {
 
@@ -333,9 +254,7 @@ function updatePalette() {
         palette.innerHTML += `
 
             <button
-
                 class="${colorClass}"
-
                 onclick="jump(${i})">
 
                 ${i + 1}
@@ -349,11 +268,13 @@ function updatePalette() {
 }
 
 
-/* =====================================================
+/* =========================================================
    JUMP TO QUESTION
-   ===================================================== */
+   ========================================================= */
 
 function jump(i) {
+
+    saveCurrentAnswer();
 
     current = i;
 
@@ -362,28 +283,198 @@ function jump(i) {
 }
 
 
-/* =====================================================
+/* =========================================================
+   TIMER
+   ========================================================= */
+
+function startTimer() {
+
+    /*
+       Store the starting time so refreshing
+       the page doesn't restart the exam.
+    */
+
+    let startTime =
+        sessionStorage.getItem(
+            "gateExamStartTime"
+        );
+
+
+    if (!startTime) {
+
+        startTime = Date.now();
+
+        sessionStorage.setItem(
+            "gateExamStartTime",
+            startTime
+        );
+
+    }
+
+
+    /*
+       Update immediately
+    */
+
+    updateTimer();
+
+
+    /*
+       Then update every second
+    */
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+/* =========================================================
+   UPDATE TIMER
+   ========================================================= */
+
+function updateTimer() {
+
+    if (examEnded) {
+
+        return;
+
+    }
+
+
+    let startTime =
+        Number(
+            sessionStorage.getItem(
+                "gateExamStartTime"
+            )
+        );
+
+
+    if (!startTime) {
+
+        return;
+
+    }
+
+
+    let elapsed =
+        Math.floor(
+            (Date.now() - startTime) / 1000
+        );
+
+
+    let remaining =
+        EXAM_TIME - elapsed;
+
+
+    /*
+       TIME OVER
+    */
+
+    if (remaining <= 0) {
+
+        remaining = 0;
+
+        document.getElementById(
+            "timer"
+        ).innerText = "00:00";
+
+
+        clearInterval(timerInterval);
+
+
+        examEnded = true;
+
+
+        alert(
+            "Time is over. Your exam will now be submitted."
+        );
+
+
+        submitExam(true);
+
+        return;
+
+    }
+
+
+    let minutes =
+        Math.floor(
+            remaining / 60
+        );
+
+
+    let seconds =
+        remaining % 60;
+
+
+    let timeText =
+        String(minutes).padStart(2, "0")
+        +
+        ":"
+        +
+        String(seconds).padStart(2, "0");
+
+
+    document.getElementById(
+        "timer"
+    ).innerText = timeText;
+
+
+    /*
+       Turn timer red during
+       last 5 minutes.
+    */
+
+    let timerBox =
+        document.querySelector(
+            ".timer-box"
+        );
+
+
+    if (remaining <= 300) {
+
+        timerBox.classList.add(
+            "timer-warning"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    SUBMIT EXAM
-   ===================================================== */
+   ========================================================= */
 
 function submitExam(autoSubmit = false) {
 
+    /*
+       Save the current answer
+       before calculating score.
+    */
 
-    if (examEnded === false) {
-
-        if (!autoSubmit) {
-
-            let confirmation =
-                confirm(
-                    "Are you sure you want to submit the exam?"
-                );
+    saveCurrentAnswer();
 
 
-            if (!confirmation) {
+    /*
+       Manual submission confirmation
+    */
 
-                return;
+    if (!autoSubmit) {
 
-            }
+        let confirmation =
+            confirm(
+                "Are you sure you want to submit the exam?"
+            );
+
+
+        if (!confirmation) {
+
+            return;
 
         }
 
@@ -391,7 +482,6 @@ function submitExam(autoSubmit = false) {
 
 
     examEnded = true;
-
 
     clearInterval(timerInterval);
 
@@ -401,7 +491,9 @@ function submitExam(autoSubmit = false) {
     */
 
     let name =
-        prompt("Enter your name");
+        prompt(
+            "Enter your name"
+        );
 
 
     if (!name) {
@@ -425,8 +517,7 @@ function submitExam(autoSubmit = false) {
     ) {
 
         if (
-            answers[i] ==
-            questions[i].answer
+            answers[i] === questions[i].answer
         ) {
 
             score++;
@@ -437,9 +528,7 @@ function submitExam(autoSubmit = false) {
 
 
     /*
-       GOOGLE APPS SCRIPT URL
-
-       Keep your working URL here.
+       YOUR GOOGLE APPS SCRIPT URL
     */
 
     let url =
@@ -447,7 +536,7 @@ function submitExam(autoSubmit = false) {
 
 
     /*
-       Candidate name
+       NAME
     */
 
     url +=
@@ -456,7 +545,7 @@ function submitExam(autoSubmit = false) {
 
 
     /*
-       Send every question
+       QUESTIONS
     */
 
     for (
@@ -465,7 +554,7 @@ function submitExam(autoSubmit = false) {
         i++
     ) {
 
-        let value =
+        let answer =
             answers[i] === null
                 ? ""
                 : answers[i];
@@ -475,13 +564,13 @@ function submitExam(autoSubmit = false) {
             "&q" +
             (i + 1) +
             "=" +
-            encodeURIComponent(value);
+            encodeURIComponent(answer);
 
     }
 
 
     /*
-       Send score
+       SCORE
     */
 
     url +=
@@ -490,10 +579,13 @@ function submitExam(autoSubmit = false) {
 
 
     /*
-       Send data to Google Apps Script
+       SEND TO GOOGLE SHEETS
     */
 
-    window.open(url, "_blank");
+    window.open(
+        url,
+        "_blank"
+    );
 
 
     /*
@@ -502,7 +594,7 @@ function submitExam(autoSubmit = false) {
 
     alert(
         "Exam submitted successfully!\n\n" +
-        "Your score: " +
+        "Score: " +
         score +
         " / " +
         questions.length
@@ -510,16 +602,16 @@ function submitExam(autoSubmit = false) {
 
 
     /*
-       Clear timer information
+       Remove timer
     */
 
     sessionStorage.removeItem(
-        "examStartTime"
+        "gateExamStartTime"
     );
 
 
     /*
-       Reload page for a fresh attempt
+       Reload for fresh attempt
     */
 
     location.reload();
@@ -527,39 +619,49 @@ function submitExam(autoSubmit = false) {
 }
 
 
-/* =====================================================
-   GATE-STYLE CALCULATOR
-   ===================================================== */
+/* =========================================================
+   CALCULATOR
+   ========================================================= */
 
 
 /*
-   Open calculator
+   OPEN
 */
 
 function openCalculator() {
 
-    document.getElementById(
-        "calculator"
-    ).style.display = "block";
+    let calculator =
+        document.getElementById(
+            "calculator"
+        );
+
+
+    calculator.style.display =
+        "block";
 
 }
 
 
 /*
-   Close calculator
+   CLOSE
 */
 
 function closeCalculator() {
 
-    document.getElementById(
-        "calculator"
-    ).style.display = "none";
+    let calculator =
+        document.getElementById(
+            "calculator"
+        );
+
+
+    calculator.style.display =
+        "none";
 
 }
 
 
 /*
-   Calculator input
+   INPUT
 */
 
 function calcInput(value) {
@@ -576,7 +678,7 @@ function calcInput(value) {
 
 
 /*
-   Clear calculator
+   CLEAR
 */
 
 function calcClear() {
@@ -589,7 +691,7 @@ function calcClear() {
 
 
 /*
-   Delete last character
+   DELETE
 */
 
 function calcBackspace() {
@@ -601,13 +703,16 @@ function calcBackspace() {
 
 
     display.value =
-        display.value.slice(0, -1);
+        display.value.slice(
+            0,
+            -1
+        );
 
 }
 
 
 /*
-   Calculate result
+   CALCULATE
 */
 
 function calculateResult() {
@@ -625,14 +730,19 @@ function calculateResult() {
     try {
 
         /*
-           Convert ^ into JavaScript **
+           Convert calculator symbols
         */
 
         expression =
-            expression.replace(
-                /\^/g,
-                "**"
-            );
+            expression
+                .replace(
+                    /\^/g,
+                    "**"
+                )
+                .replace(
+                    /sqrt\(/g,
+                    "Math.sqrt("
+                );
 
 
         /*
@@ -641,13 +751,14 @@ function calculateResult() {
 
         let result =
             Function(
-                "return " + expression
+                "return " +
+                expression
             )();
 
 
         /*
-           Round very small floating
-           point errors
+           Clean floating point
+           errors
         */
 
         if (
@@ -663,7 +774,8 @@ function calculateResult() {
         }
 
 
-        display.value = result;
+        display.value =
+            result;
 
     }
 
