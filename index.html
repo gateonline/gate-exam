@@ -12,9 +12,9 @@
 <body>
 
 
-<!-- =========================
+<!-- =====================================================
      HEADER
-     ========================= -->
+     ===================================================== -->
 
 <div class="header">
 
@@ -36,9 +36,12 @@
 
         </div>
 
+
         <button
+            id="calculatorButton"
             class="calculator-button"
-            onclick="openCalculator()">
+            onclick="openCalculator()"
+            disabled>
 
             🧮 Calculator
 
@@ -49,16 +52,169 @@
 </div>
 
 
-<!-- =========================
-     MAIN CONTAINER
-     ========================= -->
 
-<div class="container">
+<!-- =====================================================
+     START SCREEN
+     ===================================================== -->
+
+<div
+    id="startScreen"
+    class="start-screen">
 
 
-    <!-- =========================
+    <div class="instructions-box">
+
+
+        <h1>
+            POLYMER GATE
+        </h1>
+
+
+        <h2>
+            GATE XE-F Mock Test
+        </h2>
+
+
+        <div class="test-details">
+
+            <div>
+                <strong>Total Questions</strong>
+                <span>15</span>
+            </div>
+
+            <div>
+                <strong>Total Time</strong>
+                <span>41 min 30 sec</span>
+            </div>
+
+            <div>
+                <strong>Question Time Equivalent</strong>
+                <span>2 min 46 sec / question</span>
+            </div>
+
+        </div>
+
+
+        <h3>
+            Test Instructions
+        </h3>
+
+
+        <ul class="instructions-list">
+
+            <li>
+                The test contains <strong>15 questions</strong>.
+            </li>
+
+            <li>
+                The total duration is
+                <strong>41 minutes 30 seconds</strong>.
+            </li>
+
+            <li>
+                The timer will start only after you click
+                <strong>START EXAM</strong>.
+            </li>
+
+            <li>
+                Use <strong>Save & Next</strong> to save your answer
+                and move to the next question.
+            </li>
+
+            <li>
+                Use <strong>Previous</strong> to return to a
+                previous question.
+            </li>
+
+            <li>
+                Use <strong>Clear</strong> to remove your selected
+                answer.
+            </li>
+
+            <li>
+                Use <strong>Mark for Review</strong> if you want
+                to revisit a question later.
+            </li>
+
+            <li>
+                The question palette on the right shows the
+                status of every question.
+            </li>
+
+            <li>
+                <span class="green-text">
+                    Green
+                </span>
+                = Answered
+            </li>
+
+            <li>
+                <span class="purple-text">
+                    Purple
+                </span>
+                = Marked for Review
+            </li>
+
+            <li>
+                <span class="grey-text">
+                    Grey
+                </span>
+                = Not Answered
+            </li>
+
+            <li>
+                An on-screen calculator is available during
+                the examination.
+            </li>
+
+            <li>
+                When the timer reaches
+                <strong>00:00</strong>, the examination will
+                be submitted automatically.
+            </li>
+
+        </ul>
+
+
+        <div class="important-note">
+
+            <strong>Important:</strong>
+
+            Once you click START EXAM, the timer will begin.
+            Make sure you are ready before starting.
+
+        </div>
+
+
+        <button
+            id="startButton"
+            class="start-button"
+            onclick="startExam()">
+
+            START EXAM
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     EXAM AREA
+     ===================================================== -->
+
+<div
+    id="examArea"
+    class="container"
+    style="display:none;">
+
+
+    <!-- =================================================
          QUESTION AREA
-         ========================= -->
+         ================================================= -->
 
     <div class="question-area">
 
@@ -66,8 +222,6 @@
 
         <div id="options"></div>
 
-
-        <!-- BUTTONS -->
 
         <div class="buttons">
 
@@ -100,9 +254,10 @@
     </div>
 
 
-    <!-- =========================
+
+    <!-- =================================================
          QUESTION PALETTE
-         ========================= -->
+         ================================================= -->
 
     <div class="palette-section">
 
@@ -110,8 +265,6 @@
             Question Palette
         </h3>
 
-
-        <!-- LEGEND -->
 
         <div class="legend">
 
@@ -158,8 +311,6 @@
         </div>
 
 
-        <!-- QUESTION NUMBERS -->
-
         <div
             class="palette"
             id="palette">
@@ -172,9 +323,9 @@
 
 
 
-<!-- =========================
+<!-- =====================================================
      CALCULATOR
-     ========================= -->
+     ===================================================== -->
 
 <div
     id="calculator"
@@ -183,8 +334,6 @@
 
     <div class="calculator">
 
-
-        <!-- CALCULATOR HEADER -->
 
         <div class="calculator-header">
 
@@ -202,8 +351,6 @@
         </div>
 
 
-        <!-- DISPLAY -->
-
         <input
             type="text"
             id="calc-display"
@@ -211,8 +358,6 @@
             readonly
         >
 
-
-        <!-- BUTTONS -->
 
         <div class="calc-buttons">
 
@@ -329,9 +474,10 @@
 </div>
 
 
-<!-- =========================
-     JAVASCRIPT FILES
-     ========================= -->
+
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
 
 <script src="questions.js"></script>
 
