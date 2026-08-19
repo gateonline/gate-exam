@@ -13,10 +13,8 @@ Which consequences are possible? [MSQ]`,
     ],
 
     type: "MSQ",
-
     answers: [0, 1, 2]
 },
-
 
 {
     question: `A metallocene catalyst with a symmetric, achiral (non-bridged) ligand geometry polymerizes propylene to give predominantly:`,
@@ -29,10 +27,8 @@ Which consequences are possible? [MSQ]`,
     ],
 
     type: "MCQ",
-
     answer: 2
 },
-
 
 {
     question: `Among the options given, choose the most suitable compatibilizer for blending Polyvinylidene fluoride (PVDF) and Acrylonitrile butadiene styrene (ABS).`,
@@ -45,10 +41,8 @@ Which consequences are possible? [MSQ]`,
     ],
 
     type: "MCQ",
-
     answer: 2
 },
-
 
 {
     question: `A polymer blend has the following characteristics:
@@ -68,10 +62,8 @@ Which modification is most likely to improve the mechanical properties?`,
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `A polymer waste stream is processed into a product whose performance is significantly lower than that of the original application, although the polymer remains chemically usable.
@@ -86,10 +78,8 @@ This process is best described as:`,
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `MBS or CPE is added to rigid PVC (uPVC) window profiles. The primary mechanism by which these impact modifiers toughen PVC is:`,
@@ -102,10 +92,8 @@ This process is best described as:`,
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `Match the following.
@@ -128,10 +116,8 @@ S. Plastic deformation
     ],
 
     type: "MCQ",
-
     answer: 0
 },
-
 
 {
     question: `Which of the following statements are CORRECT? [MSQ]`,
@@ -144,10 +130,8 @@ S. Plastic deformation
     ],
 
     type: "MSQ",
-
     answers: [0, 1, 2]
 },
-
 
 {
     question: `A free-radical polymerization is run at Rp = 2.0 × 10⁻⁴ mol L⁻¹ s⁻¹ with initiator concentration 0.01 mol/L. Midway, additional initiator is added to bring the concentration to 0.09 mol/L (monomer concentration unchanged). The new rate, in units of 10⁻⁴ mol L⁻¹ s⁻¹, is ______.`,
@@ -160,10 +144,8 @@ S. Plastic deformation
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `A polymer consists of only two molecular-weight fractions:
@@ -182,10 +164,8 @@ Calculate the weight-average molecular weight.`,
     ],
 
     type: "MCQ",
-
     answer: 2
 },
-
 
 {
     question: `A polymer is modeled as a Maxwell element.
@@ -202,10 +182,8 @@ If the elastic modulus is 1200 MPa, determine the viscosity of the material.`,
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `A part has a projected area of 150 cm² and the cavity pressure during injection is 40 MPa. The minimum clamping force required, in tonnes (take 1 tonne-force = 9810 N), is ________ (round to nearest integer).`,
@@ -218,10 +196,8 @@ If the elastic modulus is 1200 MPa, determine the viscosity of the material.`,
     ],
 
     type: "MCQ",
-
     answer: 2
 },
-
 
 {
     question: `A polymer specimen absorbs 12 J of energy in a notched impact test. The specimen thickness is 4 mm.
@@ -238,10 +214,8 @@ What is the impact strength?`,
     ],
 
     type: "MCQ",
-
     answer: 3
 },
-
 
 {
     question: `A mixed plastic waste stream is heated in the absence of oxygen to produce smaller hydrocarbons and other volatile products. Which statement is most appropriate?`,
@@ -254,10 +228,8 @@ What is the impact strength?`,
     ],
 
     type: "MCQ",
-
     answer: 1
 },
-
 
 {
     question: `A polymer capacitor has a dielectric material with dielectric constant εr = 4. The electric field inside the material is 2 × 10^6 V/m.
@@ -272,7 +244,6 @@ If ε0 = 8.85 × 10^-12 F/m, the magnitude of the electric displacement D is clo
     ],
 
     type: "MCQ",
-
     answer: 0
 }
 
