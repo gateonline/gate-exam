@@ -1,13 +1,109 @@
-<div class="palette-section">
+<!DOCTYPE html>
+<html>
 
-    <h3>Question Palette</h3>
+<head>
+    <title>POLYMER GATE - GATE XE-F Mock Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <div class="legend">
-        <span class="legend-box answered"></span> Answered
-        <span class="legend-box review"></span> Review
-        <span class="legend-box not-answered"></span> Not Answered
+<body>
+
+<div class="header">
+    <h2>POLYMER GATE - GATE XE-F Mock Test</h2>
+</div>
+
+<div class="container">
+
+    <!-- LEFT SIDE: QUESTION -->
+    <div class="question-area">
+
+        <h3 id="question"></h3>
+
+        <div id="options"></div>
+
+        <div class="buttons">
+
+            <button onclick="prevQuestion()">
+                Previous
+            </button>
+
+            <button onclick="clearResponse()">
+                Clear
+            </button>
+
+            <button onclick="markReview()">
+                Mark for Review
+            </button>
+
+            <button onclick="saveNext()">
+                Save & Next
+            </button>
+
+            <button onclick="submitExam()">
+                Submit
+            </button>
+
+        </div>
+
     </div>
 
-    <div class="palette" id="palette"></div>
+
+    <!-- RIGHT SIDE: QUESTION PALETTE -->
+    <div class="palette-section">
+
+        <h3>Question Palette</h3>
+
+
+        <!-- COLOR LEGEND -->
+
+        <div class="legend">
+
+            <div class="legend-item">
+
+                <span class="legend-box answered"></span>
+
+                <span>Answered</span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="legend-box review"></span>
+
+                <span>Marked for Review</span>
+
+            </div>
+
+
+            <div class="legend-item">
+
+                <span class="legend-box not-answered"></span>
+
+                <span>Not Answered</span>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION NUMBERS -->
+
+        <div
+            class="palette"
+            id="palette">
+        </div>
+
+    </div>
 
 </div>
+
+
+<script src="questions.js"></script>
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
