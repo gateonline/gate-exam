@@ -1,237 +1,587 @@
-body{
+/* =========================================
+   GENERAL
+   ========================================= */
+
+body {
 
     font-family: Arial, sans-serif;
 
-    margin:0;
+    margin: 0;
 
-    background:#ffffff;
-
-}
-
-
-.header{
-
-    background:#1e3a8a;
-
-    color:white;
-
-    padding:15px 25px;
+    background: white;
 
 }
 
 
-.header h2{
+/* =========================================
+   HEADER
+   ========================================= */
 
-    margin:0;
+.header {
 
-}
+    height: 70px;
 
+    background: #1e3a8a;
 
-.container{
+    color: white;
 
-    display:flex;
+    display: flex;
 
-    min-height:90vh;
+    align-items: center;
 
-}
+    justify-content: space-between;
 
+    padding: 0 25px;
 
-.question-area{
-
-    width:70%;
-
-    padding:30px;
-
-    box-sizing:border-box;
+    box-sizing: border-box;
 
 }
 
 
-#question{
+.header-title {
 
-    white-space:pre-line;
+    font-size: 24px;
 
-    font-size:20px;
-
-    line-height:1.6;
-
-    margin-bottom:25px;
+    font-weight: bold;
 
 }
 
 
-#options{
+.header-right {
 
-    font-size:17px;
+    display: flex;
 
-}
+    align-items: center;
 
-
-.option{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    padding:12px;
-
-    margin-bottom:8px;
-
-    border-radius:5px;
-
-    cursor:pointer;
+    gap: 20px;
 
 }
 
 
-.option:hover{
+/* =========================================
+   TIMER
+   ========================================= */
 
-    background:#f1f5f9;
+.timer-box {
 
-}
+    background: white;
 
+    color: #111;
 
-.option input{
+    padding: 7px 15px;
 
-    margin-top:5px;
+    border-radius: 4px;
 
-}
+    min-width: 100px;
 
-
-.buttons{
-
-    margin-top:35px;
-
-}
-
-
-.buttons button{
-
-    margin:5px;
-
-    padding:11px 16px;
-
-    border:none;
-
-    background:#1e3a8a;
-
-    color:white;
-
-    border-radius:4px;
-
-    cursor:pointer;
+    text-align: center;
 
 }
 
 
-.buttons button:hover{
+.timer-label {
 
-    background:#172554;
+    display: block;
 
-}
+    font-size: 11px;
 
-
-.palette-section{
-
-    width:30%;
-
-    background:#f1f1f1;
-
-    padding:25px;
-
-    box-sizing:border-box;
+    color: #555;
 
 }
 
 
-.palette-section h3{
+#timer {
 
-    margin-top:0;
+    display: block;
 
-}
+    font-size: 22px;
 
-
-.legend{
-
-    font-size:13px;
-
-    margin-bottom:20px;
-
-    line-height:2.5;
+    font-weight: bold;
 
 }
 
 
-.legend-box{
+.timer-warning {
 
-    display:inline-block;
+    background: #dc2626;
 
-    width:15px;
-
-    height:15px;
-
-    margin:0 5px 0 10px;
-
-    vertical-align:middle;
+    color: white;
 
 }
 
 
-.answered{
+/* =========================================
+   CALCULATOR BUTTON
+   ========================================= */
 
-    background:#22c55e !important;
+.calculator-button {
 
-}
+    background: white;
 
+    border: none;
 
-.review{
+    padding: 10px 15px;
 
-    background:#9333ea !important;
+    border-radius: 4px;
 
-    color:white;
+    cursor: pointer;
 
-}
-
-
-.not-answered{
-
-    background:#d1d5db !important;
+    font-size: 14px;
 
 }
 
 
-.palette{
+.calculator-button:hover {
 
-    display:grid;
-
-    grid-template-columns:repeat(5, 50px);
-
-    gap:10px;
+    background: #e5e7eb;
 
 }
 
 
-.palette button{
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
 
-    height:45px;
+.container {
 
-    width:45px;
+    display: flex;
 
-    border:none;
-
-    border-radius:4px;
-
-    font-size:15px;
-
-    cursor:pointer;
+    min-height: calc(100vh - 70px);
 
 }
 
 
-.palette button:hover{
+/* =========================================
+   QUESTION AREA
+   ========================================= */
 
-    opacity:0.8;
+.question-area {
+
+    width: 70%;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+}
+
+
+#question {
+
+    white-space: pre-line;
+
+    font-size: 20px;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+
+}
+
+
+/* =========================================
+   OPTIONS
+   ========================================= */
+
+#options {
+
+    font-size: 17px;
+
+}
+
+
+#options label {
+
+    display: block;
+
+    padding: 10px;
+
+    margin-bottom: 5px;
+
+    cursor: pointer;
+
+    border-radius: 4px;
+
+}
+
+
+#options label:hover {
+
+    background: #f1f5f9;
+
+}
+
+
+#options input {
+
+    margin-right: 10px;
+
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.buttons {
+
+    margin-top: 35px;
+
+}
+
+
+.buttons button {
+
+    margin: 5px;
+
+    padding: 11px 16px;
+
+    border: 1px solid #777;
+
+    background: white;
+
+    color: #111;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+}
+
+
+.buttons button:hover {
+
+    background: #e5e7eb;
+
+}
+
+
+.submit-button {
+
+    background: #1e3a8a !important;
+
+    color: white !important;
+
+    border-color: #1e3a8a !important;
+
+}
+
+
+/* =========================================
+   QUESTION PALETTE
+   ========================================= */
+
+.palette-section {
+
+    width: 30%;
+
+    background: #f1f1f1;
+
+    padding: 25px;
+
+    box-sizing: border-box;
+
+}
+
+
+.palette-section h3 {
+
+    margin-top: 0;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================
+   LEGEND
+   ========================================= */
+
+.legend {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.legend-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 14px;
+
+}
+
+
+.legend-box {
+
+    width: 22px;
+
+    height: 22px;
+
+    display: inline-block;
+
+    border: 1px solid #777;
+
+    border-radius: 3px;
+
+}
+
+
+.legend-box.answered {
+
+    background: #22c55e;
+
+}
+
+
+.legend-box.review {
+
+    background: #9333ea;
+
+}
+
+
+.legend-box.not-answered {
+
+    background: #d1d5db;
+
+}
+
+
+/* =========================================
+   QUESTION NUMBERS
+   ========================================= */
+
+.palette {
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 50px);
+
+    gap: 10px;
+
+}
+
+
+.palette button {
+
+    height: 45px;
+
+    width: 45px;
+
+    border: 1px solid #777;
+
+    border-radius: 4px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+.palette button.not-answered {
+
+    background: #d1d5db !important;
+
+    color: #111 !important;
+
+}
+
+
+.palette button.answered {
+
+    background: #22c55e !important;
+
+    color: white !important;
+
+    border-color: #15803d;
+
+}
+
+
+.palette button.review {
+
+    background: #9333ea !important;
+
+    color: white !important;
+
+    border-color: #6b21a8;
+
+}
+
+
+.palette button:hover {
+
+    opacity: 0.8;
+
+}
+
+
+/* =========================================
+   CALCULATOR OVERLAY
+   ========================================= */
+
+.calculator-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    z-index: 1000;
+
+}
+
+
+/* =========================================
+   CALCULATOR
+   ========================================= */
+
+.calculator {
+
+    position: absolute;
+
+    top: 100px;
+
+    right: 40px;
+
+    width: 330px;
+
+    background: #f3f4f6;
+
+    border: 1px solid #555;
+
+    border-radius: 6px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+
+}
+
+
+/* =========================================
+   CALCULATOR HEADER
+   ========================================= */
+
+.calculator-header {
+
+    background: #1e3a8a;
+
+    color: white;
+
+    padding: 12px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-weight: bold;
+
+}
+
+
+.calculator-header button {
+
+    background: transparent;
+
+    color: white;
+
+    border: none;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================
+   CALCULATOR DISPLAY
+   ========================================= */
+
+.calc-display {
+
+    width: calc(100% - 20px);
+
+    margin: 10px;
+
+    height: 45px;
+
+    box-sizing: border-box;
+
+    font-size: 20px;
+
+    text-align: right;
+
+    padding: 8px;
+
+    border: 1px solid #777;
+
+    background: white;
+
+}
+
+
+/* =========================================
+   CALCULATOR BUTTON GRID
+   ========================================= */
+
+.calc-buttons {
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 5px;
+
+    padding: 10px;
+
+}
+
+
+.calc-buttons button {
+
+    height: 45px;
+
+    border: 1px solid #999;
+
+    background: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    border-radius: 3px;
+
+}
+
+
+.calc-buttons button:hover {
+
+    background: #e5e7eb;
 
 }
