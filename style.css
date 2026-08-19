@@ -1,40 +1,237 @@
 body{
-font-family: Arial;
-margin:0;
+
+    font-family: Arial, sans-serif;
+
+    margin:0;
+
+    background:#ffffff;
+
 }
+
 
 .header{
-background:#1e3a8a;
-color:white;
-padding:10px;
+
+    background:#1e3a8a;
+
+    color:white;
+
+    padding:15px 25px;
+
 }
+
+
+.header h2{
+
+    margin:0;
+
+}
+
 
 .container{
-display:flex;
-height:90vh;
+
+    display:flex;
+
+    min-height:90vh;
+
 }
+
 
 .question-area{
-width:70%;
-padding:20px;
+
+    width:70%;
+
+    padding:30px;
+
+    box-sizing:border-box;
+
 }
 
-.palette{
-width:30%;
-background:#f1f1f1;
-padding:20px;
-display:grid;
-grid-template-columns:repeat(5,1fr);
-gap:10px;
+
+#question{
+
+    white-space:pre-line;
+
+    font-size:20px;
+
+    line-height:1.6;
+
+    margin-bottom:25px;
+
 }
 
-.palette button{
-height:50px;
-width:50px;
-font-size:16px;
+
+#options{
+
+    font-size:17px;
+
 }
+
+
+.option{
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    padding:12px;
+
+    margin-bottom:8px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+}
+
+
+.option:hover{
+
+    background:#f1f5f9;
+
+}
+
+
+.option input{
+
+    margin-top:5px;
+
+}
+
+
+.buttons{
+
+    margin-top:35px;
+
+}
+
 
 .buttons button{
-margin:5px;
-padding:10px;
+
+    margin:5px;
+
+    padding:11px 16px;
+
+    border:none;
+
+    background:#1e3a8a;
+
+    color:white;
+
+    border-radius:4px;
+
+    cursor:pointer;
+
+}
+
+
+.buttons button:hover{
+
+    background:#172554;
+
+}
+
+
+.palette-section{
+
+    width:30%;
+
+    background:#f1f1f1;
+
+    padding:25px;
+
+    box-sizing:border-box;
+
+}
+
+
+.palette-section h3{
+
+    margin-top:0;
+
+}
+
+
+.legend{
+
+    font-size:13px;
+
+    margin-bottom:20px;
+
+    line-height:2.5;
+
+}
+
+
+.legend-box{
+
+    display:inline-block;
+
+    width:15px;
+
+    height:15px;
+
+    margin:0 5px 0 10px;
+
+    vertical-align:middle;
+
+}
+
+
+.answered{
+
+    background:#22c55e !important;
+
+}
+
+
+.review{
+
+    background:#9333ea !important;
+
+    color:white;
+
+}
+
+
+.not-answered{
+
+    background:#d1d5db !important;
+
+}
+
+
+.palette{
+
+    display:grid;
+
+    grid-template-columns:repeat(5, 50px);
+
+    gap:10px;
+
+}
+
+
+.palette button{
+
+    height:45px;
+
+    width:45px;
+
+    border:none;
+
+    border-radius:4px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+}
+
+
+.palette button:hover{
+
+    opacity:0.8;
+
 }
