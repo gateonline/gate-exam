@@ -9,7 +9,6 @@
 
 </head>
 
-
 <body>
 
 
@@ -22,7 +21,6 @@
     <div class="header-title">
         POLYMER GATE - GATE XE-F Mock Test
     </div>
-
 
     <div class="header-right">
 
@@ -63,21 +61,16 @@
     id="startScreen"
     class="start-screen">
 
-
     <div class="instructions-box">
-
 
         <h1>
             POLYMER GATE
         </h1>
 
-
         <h2>
             GATE XE-F Mock Test
         </h2>
 
-
-        <!-- TEST DETAILS -->
 
         <div class="test-details">
 
@@ -109,8 +102,6 @@
         </div>
 
 
-        <!-- INSTRUCTIONS -->
-
         <h3>
             Test Instructions
         </h3>
@@ -123,18 +114,15 @@
                 <strong>15 questions</strong>.
             </li>
 
-
             <li>
                 The total duration is
                 <strong>30 minutes</strong>.
             </li>
 
-
             <li>
                 The timer starts only after you click
                 <strong>START EXAM</strong>.
             </li>
-
 
             <li>
                 Use <strong>Save & Next</strong>
@@ -142,72 +130,74 @@
                 next question.
             </li>
 
-
             <li>
                 Use <strong>Previous</strong>
                 to return to a previous question.
             </li>
-
 
             <li>
                 Use <strong>Clear</strong>
                 to remove your selected answer.
             </li>
 
-
             <li>
                 Use <strong>Mark for Review</strong>
                 to revisit a question later.
             </li>
 
-
             <li>
-                The question palette shows the status
-                of every question.
+                Green = Answered
             </li>
 
-
             <li>
-                <span class="green-text">
-                    Green
-                </span>
-                = Answered
+                Purple = Marked for Review
             </li>
 
-
             <li>
-                <span class="purple-text">
-                    Purple
-                </span>
-                = Marked for Review
+                Grey = Not Answered
             </li>
-
-
-            <li>
-                <span class="grey-text">
-                    Grey
-                </span>
-                = Not Answered
-            </li>
-
 
             <li>
                 An on-screen calculator is available
                 during the examination.
             </li>
 
-
             <li>
-                When the timer reaches
-                <strong>00:00</strong>,
-                the examination will be submitted
-                automatically.
+                The examination will automatically
+                submit when the timer reaches
+                <strong>00:00</strong>.
             </li>
 
         </ul>
 
 
-        <!-- IMPORTANT NOTE -->
+        <!-- =================================================
+             MARKING SCHEME
+             ================================================= -->
+
+        <h3>
+            Marking Scheme
+        </h3>
+
+        <div class="marking-scheme">
+
+            <div>
+                <strong>MCQ</strong>
+                <span>Correct: +4</span>
+                <span>Wrong: −1</span>
+                <span>Unanswered: 0</span>
+            </div>
+
+
+            <div>
+                <strong>MSQ</strong>
+                <span>Correct: +4</span>
+                <span>Wrong: 0</span>
+                <span>Unanswered: 0</span>
+            </div>
+
+        </div>
+
 
         <div class="important-note">
 
@@ -215,12 +205,9 @@
 
             Once you click START EXAM,
             the timer will begin.
-            Make sure you are ready before starting.
 
         </div>
 
-
-        <!-- START BUTTON -->
 
         <button
             id="startButton"
@@ -230,7 +217,6 @@
             START EXAM
 
         </button>
-
 
     </div>
 
@@ -248,41 +234,32 @@
     style="display:none;">
 
 
-    <!-- =================================================
-         QUESTION AREA
-         ================================================= -->
-
     <div class="question-area">
 
+        <div class="question-type" id="questionType"></div>
 
         <h3 id="question"></h3>
-
 
         <div id="options"></div>
 
 
         <div class="buttons">
 
-
             <button onclick="prevQuestion()">
                 Previous
             </button>
-
 
             <button onclick="clearResponse()">
                 Clear
             </button>
 
-
             <button onclick="markReview()">
                 Mark for Review
             </button>
 
-
             <button onclick="saveNext()">
                 Save & Next
             </button>
-
 
             <button
                 class="submit-button"
@@ -292,9 +269,7 @@
 
             </button>
 
-
         </div>
-
 
     </div>
 
@@ -306,22 +281,16 @@
 
     <div class="palette-section">
 
-
         <h3>
             Question Palette
         </h3>
 
 
-        <!-- LEGEND -->
-
         <div class="legend">
-
 
             <div class="legend-item">
 
-                <span
-                    class="legend-box answered">
-                </span>
+                <span class="legend-box answered"></span>
 
                 <span>
                     Answered
@@ -332,9 +301,7 @@
 
             <div class="legend-item">
 
-                <span
-                    class="legend-box review">
-                </span>
+                <span class="legend-box review"></span>
 
                 <span>
                     Marked for Review
@@ -345,9 +312,7 @@
 
             <div class="legend-item">
 
-                <span
-                    class="legend-box not-answered">
-                </span>
+                <span class="legend-box not-answered"></span>
 
                 <span>
                     Not Answered
@@ -355,18 +320,14 @@
 
             </div>
 
-
         </div>
 
-
-        <!-- QUESTION NUMBERS -->
 
         <div
             class="palette"
             id="palette">
 
         </div>
-
 
     </div>
 
@@ -385,19 +346,14 @@
 
     <div class="calculator">
 
-
         <div class="calculator-header">
 
             <span>
                 GATE Calculator
             </span>
 
-
-            <button
-                onclick="closeCalculator()">
-
+            <button onclick="closeCalculator()">
                 ×
-
             </button>
 
         </div>
@@ -413,131 +369,59 @@
 
         <div class="calc-buttons">
 
+            <button onclick="calcClear()">C</button>
 
-            <button onclick="calcClear()">
-                C
-            </button>
+            <button onclick="calcBackspace()">DEL</button>
 
+            <button onclick="calcInput('(')">(</button>
 
-            <button onclick="calcBackspace()">
-                DEL
-            </button>
+            <button onclick="calcInput(')')">)</button>
 
-
-            <button onclick="calcInput('(')">
-                (
-            </button>
+            <button onclick="calcInput('/')">÷</button>
 
 
-            <button onclick="calcInput(')')">
-                )
-            </button>
+            <button onclick="calcInput('7')">7</button>
+
+            <button onclick="calcInput('8')">8</button>
+
+            <button onclick="calcInput('9')">9</button>
+
+            <button onclick="calcInput('*')">×</button>
+
+            <button onclick="calcInput('sqrt(')">√</button>
 
 
-            <button onclick="calcInput('/')">
-                ÷
-            </button>
+            <button onclick="calcInput('4')">4</button>
+
+            <button onclick="calcInput('5')">5</button>
+
+            <button onclick="calcInput('6')">6</button>
+
+            <button onclick="calcInput('-')">−</button>
+
+            <button onclick="calcInput('^')">xʸ</button>
 
 
-            <button onclick="calcInput('7')">
-                7
-            </button>
+            <button onclick="calcInput('1')">1</button>
+
+            <button onclick="calcInput('2')">2</button>
+
+            <button onclick="calcInput('3')">3</button>
+
+            <button onclick="calcInput('+')">+</button>
+
+            <button onclick="calcInput('Math.PI')">π</button>
 
 
-            <button onclick="calcInput('8')">
-                8
-            </button>
+            <button onclick="calcInput('0')">0</button>
 
+            <button onclick="calcInput('.')">.</button>
 
-            <button onclick="calcInput('9')">
-                9
-            </button>
+            <button onclick="calcInput('Math.sin(')">sin</button>
 
+            <button onclick="calcInput('Math.cos(')">cos</button>
 
-            <button onclick="calcInput('*')">
-                ×
-            </button>
-
-
-            <button onclick="calcInput('sqrt(')">
-                √
-            </button>
-
-
-            <button onclick="calcInput('4')">
-                4
-            </button>
-
-
-            <button onclick="calcInput('5')">
-                5
-            </button>
-
-
-            <button onclick="calcInput('6')">
-                6
-            </button>
-
-
-            <button onclick="calcInput('-')">
-                −
-            </button>
-
-
-            <button onclick="calcInput('^')">
-                xʸ
-            </button>
-
-
-            <button onclick="calcInput('1')">
-                1
-            </button>
-
-
-            <button onclick="calcInput('2')">
-                2
-            </button>
-
-
-            <button onclick="calcInput('3')">
-                3
-            </button>
-
-
-            <button onclick="calcInput('+')">
-                +
-            </button>
-
-
-            <button onclick="calcInput('Math.PI')">
-                π
-            </button>
-
-
-            <button onclick="calcInput('0')">
-                0
-            </button>
-
-
-            <button onclick="calcInput('.')">
-                .
-            </button>
-
-
-            <button onclick="calcInput('Math.sin(')">
-                sin
-            </button>
-
-
-            <button onclick="calcInput('Math.cos(')">
-                cos
-            </button>
-
-
-            <button onclick="calculateResult()">
-                =
-            </button>
-
+            <button onclick="calculateResult()">=</button>
 
         </div>
 
@@ -548,21 +432,18 @@
 
 
 <!-- =====================================================
-     SUBMIT CONFIRMATION MODAL
+     SUBMIT CONFIRMATION
      ===================================================== -->
 
 <div
     id="submitModal"
     class="modal-overlay">
 
-
     <div class="modal-box">
-
 
         <h2>
             Submit Examination
         </h2>
-
 
         <p>
             Are you sure you want to submit
@@ -571,7 +452,6 @@
 
 
         <div class="modal-buttons">
-
 
             <button
                 class="modal-cancel"
@@ -590,7 +470,6 @@
 
             </button>
 
-
         </div>
 
     </div>
@@ -600,21 +479,18 @@
 
 
 <!-- =====================================================
-     NAME ENTRY MODAL
+     NAME ENTRY
      ===================================================== -->
 
 <div
     id="nameModal"
     class="modal-overlay">
 
-
     <div class="modal-box">
-
 
         <h2>
             Enter Your Name
         </h2>
-
 
         <p>
             Please enter your name before
@@ -633,7 +509,6 @@
 
         <div class="modal-buttons">
 
-
             <button
                 class="modal-cancel"
                 onclick="closeNameModal()">
@@ -651,7 +526,6 @@
 
             </button>
 
-
         </div>
 
     </div>
@@ -661,37 +535,29 @@
 
 
 <!-- =====================================================
-     RESULT MODAL
+     RESULT
      ===================================================== -->
 
 <div
     id="resultModal"
     class="modal-overlay">
 
-
-    <div
-        class="modal-box result-box">
-
+    <div class="modal-box result-box">
 
         <h2>
             Exam Submitted Successfully
         </h2>
-
 
         <p id="resultName"></p>
 
 
         <div class="score-display">
 
-
             <span>
                 Your Score
             </span>
 
-
-            <strong id="resultScore">
-            </strong>
-
+            <strong id="resultScore"></strong>
 
         </div>
 
@@ -704,20 +570,15 @@
 
         </button>
 
-
     </div>
 
 </div>
 
 
 
-<!-- =====================================================
-     JAVASCRIPT
-     ===================================================== -->
+<script src="questions.js?v=2"></script>
 
-<script src="questions.js"></script>
-
-<script src="script.js"></script>
+<script src="script.js?v=4"></script>
 
 
 </body>
