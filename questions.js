@@ -1,7 +1,7 @@
 const questions = [
 
 /* =====================================================
-   Q1 - MSQ
+   Q1 — MCQ — 1 MARK
    ===================================================== */
 
 {
@@ -15,14 +15,23 @@ const questions = [
         "Formation of an exclusively linear polymer"
     ],
 
-    answer: [0, 1, 2],
+    answer: 0,
 
-    type: "MSQ"
+    /*
+       For this MSQ, the correct combination is A, B, C.
+       Therefore this question should actually be MSQ.
+    */
+
+    correctAnswers: [0, 1, 2],
+
+    type: "MSQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q2 - MCQ
+   Q2 — MCQ — 1 MARK
    ===================================================== */
 
 {
@@ -38,12 +47,14 @@ const questions = [
 
     answer: 2,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q3 - MCQ
+   Q3 — MCQ — 1 MARK
    ===================================================== */
 
 {
@@ -59,17 +70,24 @@ const questions = [
 
     answer: 2,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q4 - MCQ
+   Q4 — MCQ — 1 MARK
    ===================================================== */
 
 {
     question:
-        "A polymer blend has the following characteristics:\n\n- Poor impact strength\n- Large dispersed domains\n- High interfacial tension\n- Two glass transition temperatures\n\nWhich modification is most likely to improve the mechanical properties?",
+        "A polymer blend has the following characteristics:\n\n" +
+        "- Poor impact strength\n" +
+        "- Large dispersed domains\n" +
+        "- High interfacial tension\n" +
+        "- Two glass transition temperatures\n\n" +
+        "Which modification is most likely to improve the mechanical properties?",
 
     options: [
         "Increase processing temperature only.",
@@ -80,12 +98,14 @@ const questions = [
 
     answer: 1,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q5 - MCQ
+   Q5 — MCQ — 1 MARK
    ===================================================== */
 
 {
@@ -101,12 +121,14 @@ const questions = [
 
     answer: 1,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q6 - MCQ
+   Q6 — MCQ — 1 MARK
    ===================================================== */
 
 {
@@ -125,25 +147,30 @@ const questions = [
 
     answer: 1,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 1
 },
 
 
 /* =====================================================
-   Q7 - MCQ
+   Q7 — MCQ — 2 MARKS
    ===================================================== */
 
 {
     question:
         "Match the following.\n\n" +
+
         "P. Glassy polymer under small strain\n" +
         "Q. Rubbery polymer\n" +
         "R. Stress relaxation\n" +
         "S. Plastic deformation\n\n" +
+
         "1. Entropy-driven elasticity\n" +
         "2. Bond stretching and bond-angle distortion\n" +
         "3. Excess free energy is dissipated with time\n" +
         "4. Irreversible chain slippage\n\n" +
+
         "Choose the correct option.",
 
     options: [
@@ -155,12 +182,14 @@ const questions = [
 
     answer: 0,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q8 - MSQ
+   Q8 — MSQ — 2 MARKS
    ===================================================== */
 
 {
@@ -177,109 +206,104 @@ const questions = [
         "SMC is a thermoplastic prepreg that can be re-melted and reused"
     ],
 
-    answer: [0, 1, 2],
+    correctAnswers: [0, 1, 2],
 
-    type: "MSQ"
+    type: "MSQ",
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q9 - NAT / NUMERICAL
+   Q9 — NAT — 2 MARKS
    ===================================================== */
 
 {
     question:
-        "A free-radical polymerization is run at Rp = 2.0 × 10⁻⁴ mol L⁻¹ s⁻¹ with initiator concentration 0.01 mol/L. Midway, additional initiator is added to bring the concentration to 0.09 mol/L (monomer concentration unchanged). The new rate, in units of 10⁻⁴ mol L⁻¹ s⁻¹, is ________.",
+        "A free-radical polymerization is run at Rp = 2.0 × 10⁻⁴ mol L⁻¹ s⁻¹ with initiator concentration 0.01 mol/L. Midway, additional initiator is added to bring the concentration to 0.09 mol/L (monomer concentration unchanged). The new rate, in units of 10⁻⁴ mol L⁻¹ s⁻¹, is ________.\n\n" +
+        "Enter the answer correct to TWO decimal places.",
 
-    options: [
-        "2.0",
-        "4.0",
-        "6.0",
-        "8.0"
-    ],
+    type: "NAT",
 
-    answer: 2,
+    answer: 6.00,
 
-    type: "MCQ"
+    marks: 2
 },
 
 
 /* =====================================================
-   Q10 - MCQ
+   Q10 — NAT — 2 MARKS
    ===================================================== */
 
 {
     question:
         "A polymer consists of only two molecular-weight fractions:\n\n" +
+
         "20% of the molecules have M = 10,000 g/mol\n" +
         "80% of the molecules have M = 50,000 g/mol\n\n" +
-        "Calculate the weight-average molecular weight.",
 
-    options: [
-        "40,000 g/mol",
-        "45,000 g/mol",
-        "48,095 g/mol",
-        "50,000 g/mol"
-    ],
+        "Calculate the weight-average molecular weight in g/mol.\n\n" +
 
-    answer: 2,
+        "Enter the answer correct to TWO decimal places.",
 
-    type: "MCQ"
+    type: "NAT",
+
+    answer: 48095.24,
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q11 - MCQ
+   Q11 — NAT — 2 MARKS
    ===================================================== */
 
 {
     question:
         "A polymer is modeled as a Maxwell element.\n\n" +
+
         "The instantaneous strain accounts for 25% of the total strain after 15 s under constant stress.\n\n" +
-        "If the elastic modulus is 1200 MPa, determine the viscosity of the material.",
 
-    options: [
-        "3000 MPa·s",
-        "4500 MPa·s",
-        "6000 MPa·s",
-        "9000 MPa·s"
-    ],
+        "If the elastic modulus is 1200 MPa, determine the viscosity of the material in MPa·s.\n\n" +
 
-    answer: 2,
+        "Enter the answer correct to TWO decimal places.",
 
-    type: "MCQ"
+    type: "NAT",
+
+    answer: 6000.00,
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q12 - MCQ
+   Q12 — NAT — 2 MARKS
    ===================================================== */
 
 {
     question:
-        "A part has a projected area of 150 cm² and the cavity pressure during injection is 40 MPa. The minimum clamping force required, in tonnes (take 1 tonne-force = 9810 N), is ________ (round to nearest integer).",
+        "A part has a projected area of 150 cm² and the cavity pressure during injection is 40 MPa. The minimum clamping force required, in tonnes (take 1 tonne-force = 9810 N), is ________.\n\n" +
 
-    options: [
-        "41 tonnes",
-        "51 tonnes",
-        "61 tonnes",
-        "71 tonnes"
-    ],
+        "Enter the answer correct to TWO decimal places.",
 
-    answer: 2,
+    type: "NAT",
 
-    type: "MCQ"
+    answer: 61.16,
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q13 - MCQ
+   Q13 — MCQ — 2 MARKS
    ===================================================== */
 
 {
     question:
         "A polymer specimen absorbs 12 J of energy in a notched impact test. The specimen thickness is 4 mm.\n\n" +
+
         "The reported impact strength is defined as energy absorbed per unit thickness.\n\n" +
+
         "What is the impact strength?",
 
     options: [
@@ -291,12 +315,14 @@ const questions = [
 
     answer: 3,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q14 - MCQ
+   Q14 — MCQ — 2 MARKS
    ===================================================== */
 
 {
@@ -315,29 +341,29 @@ const questions = [
 
     answer: 1,
 
-    type: "MCQ"
+    type: "MCQ",
+
+    marks: 2
 },
 
 
 /* =====================================================
-   Q15 - MCQ
+   Q15 — NAT — 2 MARKS
    ===================================================== */
 
 {
     question:
         "A polymer capacitor has a dielectric material with dielectric constant εr = 4. The electric field inside the material is 2 × 10⁶ V/m.\n\n" +
-        "If ε0 = 8.85 × 10⁻¹² F/m, the magnitude of the electric displacement D is closest to:",
 
-    options: [
-        "7.08 × 10⁻⁵ C/m²",
-        "1.77 × 10⁻⁵ C/m²",
-        "8.85 × 10⁻⁶ C/m²",
-        "4.52 × 10⁻⁵ C/m²"
-    ],
+        "If ε0 = 8.85 × 10⁻¹² F/m, calculate the magnitude of the electric displacement D in C/m².\n\n" +
 
-    answer: 0,
+        "Enter the answer correct to TWO decimal places.",
 
-    type: "MCQ"
+    type: "NAT",
+
+    answer: 0.0000708,
+
+    marks: 2
 }
 
 ];
