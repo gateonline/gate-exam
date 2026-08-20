@@ -147,13 +147,6 @@ body {
 }
 
 
-.calculator-button:hover:not(:disabled) {
-
-    background: #e5e7eb;
-
-}
-
-
 /* =====================================================
    START SCREEN
    ===================================================== */
@@ -205,8 +198,6 @@ body {
 
     margin-top: 0;
 
-    margin-bottom: 5px;
-
 }
 
 
@@ -214,20 +205,7 @@ body {
 
     text-align: center;
 
-    margin-top: 5px;
-
-    margin-bottom: 30px;
-
     color: #333;
-
-}
-
-
-.instructions-box h3 {
-
-    margin-top: 25px;
-
-    color: #1e3a8a;
 
 }
 
@@ -283,8 +261,6 @@ body {
 
     font-weight: bold;
 
-    color: #111;
-
 }
 
 
@@ -308,29 +284,56 @@ body {
 }
 
 
-.green-text {
+/* =====================================================
+   MARKING SCHEME
+   ===================================================== */
 
-    color: #15803d;
+.marking-scheme {
 
-    font-weight: bold;
+    display: flex;
 
-}
+    gap: 15px;
 
-
-.purple-text {
-
-    color: #7e22ce;
-
-    font-weight: bold;
+    margin-top: 15px;
 
 }
 
 
-.grey-text {
+.marking-scheme div {
 
-    color: #555;
+    flex: 1;
 
-    font-weight: bold;
+    background: #f8fafc;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 5px;
+
+    padding: 15px;
+
+}
+
+
+.marking-scheme strong {
+
+    display: block;
+
+    color: #1e3a8a;
+
+    font-size: 17px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.marking-scheme span {
+
+    display: block;
+
+    margin: 4px 0;
+
+    font-size: 14px;
 
 }
 
@@ -348,8 +351,6 @@ body {
     padding: 12px 15px;
 
     margin-top: 20px;
-
-    line-height: 1.5;
 
 }
 
@@ -391,7 +392,7 @@ body {
 
 
 /* =====================================================
-   MAIN EXAM
+   EXAM AREA
    ===================================================== */
 
 .container {
@@ -410,6 +411,27 @@ body {
     padding: 30px;
 
     box-sizing: border-box;
+
+}
+
+
+.question-type {
+
+    display: inline-block;
+
+    background: #e0e7ff;
+
+    color: #1e3a8a;
+
+    padding: 5px 12px;
+
+    border-radius: 4px;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
 
 }
 
@@ -518,7 +540,7 @@ body {
 
 
 /* =====================================================
-   QUESTION PALETTE
+   PALETTE
    ===================================================== */
 
 .palette-section {
@@ -538,14 +560,8 @@ body {
 
     margin-top: 0;
 
-    font-size: 20px;
-
 }
 
-
-/* =====================================================
-   LEGEND
-   ===================================================== */
 
 .legend {
 
@@ -609,16 +625,11 @@ body {
 }
 
 
-/* =====================================================
-   PALETTE NUMBERS
-   ===================================================== */
-
 .palette {
 
     display: grid;
 
-    grid-template-columns:
-        repeat(5, 50px);
+    grid-template-columns: repeat(5, 50px);
 
     gap: 10px;
 
@@ -646,8 +657,6 @@ body {
 
     background: #d1d5db !important;
 
-    color: #111 !important;
-
 }
 
 
@@ -657,8 +666,6 @@ body {
 
     color: white !important;
 
-    border-color: #15803d;
-
 }
 
 
@@ -667,15 +674,6 @@ body {
     background: #9333ea !important;
 
     color: white !important;
-
-    border-color: #6b21a8;
-
-}
-
-
-.palette button:hover {
-
-    opacity: 0.8;
 
 }
 
@@ -779,8 +777,6 @@ body {
 
     border: 1px solid #777;
 
-    background: white;
-
 }
 
 
@@ -788,8 +784,7 @@ body {
 
     display: grid;
 
-    grid-template-columns:
-        repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 
     gap: 5px;
 
@@ -815,15 +810,8 @@ body {
 }
 
 
-.calc-buttons button:hover {
-
-    background: #e5e7eb;
-
-}
-
-
 /* =====================================================
-   CUSTOM MODALS
+   MODALS
    ===================================================== */
 
 .modal-overlay {
@@ -840,8 +828,7 @@ body {
 
     height: 100%;
 
-    background:
-        rgba(0, 0, 0, 0.45);
+    background: rgba(0,0,0,0.45);
 
     z-index: 2000;
 
@@ -863,7 +850,7 @@ body {
     border-radius: 6px;
 
     box-shadow:
-        0 8px 30px rgba(0, 0, 0, 0.3);
+        0 8px 30px rgba(0,0,0,0.3);
 
     padding: 25px;
 
@@ -874,59 +861,10 @@ body {
 
 .modal-box h2 {
 
-    margin-top: 0;
-
     color: #1e3a8a;
 
 }
 
-
-.modal-box p {
-
-    font-size: 16px;
-
-    line-height: 1.5;
-
-    color: #333;
-
-}
-
-
-/* =====================================================
-   NAME INPUT
-   ===================================================== */
-
-.name-input {
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 12px;
-
-    border: 1px solid #999;
-
-    border-radius: 4px;
-
-    font-size: 16px;
-
-    margin-top: 10px;
-
-}
-
-
-.name-input:focus {
-
-    outline: none;
-
-    border-color: #1e3a8a;
-
-}
-
-
-/* =====================================================
-   MODAL BUTTONS
-   ===================================================== */
 
 .modal-buttons {
 
@@ -959,16 +897,7 @@ body {
 
     background: white;
 
-    color: #333;
-
     border: 1px solid #777;
-
-}
-
-
-.modal-cancel:hover {
-
-    background: #eee;
 
 }
 
@@ -984,9 +913,23 @@ body {
 }
 
 
-.modal-submit:hover {
+/* =====================================================
+   NAME INPUT
+   ===================================================== */
 
-    background: #172554;
+.name-input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    font-size: 16px;
 
 }
 
@@ -1011,8 +954,6 @@ body {
 .score-display span {
 
     display: block;
-
-    font-size: 15px;
 
     color: #555;
 
