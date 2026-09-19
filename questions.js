@@ -218,6 +218,8 @@ const questions = [
 
         answer: 6.00,
 
+        tolerance: 0.01,
+
         marks: 2
     },
 
@@ -238,6 +240,8 @@ const questions = [
 
         answer: 48095.24,
 
+        tolerance: 0.01,
+
         marks: 2
     },
 
@@ -257,6 +261,8 @@ const questions = [
 
         answer: 6000.00,
 
+        tolerance: 0.01,
+
         marks: 2
     },
 
@@ -273,6 +279,8 @@ const questions = [
         type: "NAT",
 
         answer: 61.16,
+
+        tolerance: 0.01,
 
         marks: 2
     },
@@ -342,6 +350,8 @@ const questions = [
         type: "NAT",
 
         answer: 0.0000708,
+
+        tolerance: 0.0000001,
 
         marks: 2
     }
