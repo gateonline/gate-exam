@@ -679,60 +679,6 @@ body {
 
 
 /* =====================================================
-   NAT ANSWER
-   ===================================================== */
-
-.nat-answer {
-
-    margin-top: 25px;
-
-    max-width: 450px;
-
-}
-
-
-.nat-answer label {
-
-    display: block;
-
-    font-size: 17px;
-
-    font-weight: bold;
-
-    margin-bottom: 10px;
-
-}
-
-
-#natInput {
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-    padding: 12px;
-
-    font-size: 18px;
-
-    border: 1px solid #999;
-
-    border-radius: 4px;
-
-}
-
-
-.nat-note {
-
-    font-size: 13px;
-
-    color: #666;
-
-    margin-top: 8px;
-
-}
-
-
-/* =====================================================
    CALCULATOR
    ===================================================== */
 
@@ -968,7 +914,7 @@ body {
 
 
 /* =====================================================
-   NAME / MOBILE INPUT
+   NAME INPUT
    ===================================================== */
 
 .name-input {
@@ -985,12 +931,7 @@ body {
 
     font-size: 16px;
 
-}
-
-
-#candidateMobile {
-
-    margin-top: 5px;
+    margin-bottom: 8px;
 
 }
 
@@ -1030,6 +971,73 @@ body {
     font-size: 32px;
 
     color: #1e3a8a;
+
+}
+
+
+/* =====================================================
+   QUESTION IMAGE
+   ===================================================== */
+
+.question-image {
+
+    display: block;
+
+    max-width: 650px;
+
+    width: 100%;
+
+    height: auto;
+
+    margin: 20px auto;
+
+}
+
+
+/* =====================================================
+   NAT
+   ===================================================== */
+
+.nat-answer {
+
+    margin-top: 15px;
+
+}
+
+
+.nat-answer label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+
+}
+
+
+.nat-answer input {
+
+    width: 220px;
+
+    padding: 12px;
+
+    font-size: 18px;
+
+    border: 1px solid #999;
+
+    border-radius: 4px;
+
+    box-sizing: border-box;
+
+}
+
+
+.nat-note {
+
+    color: #555;
+
+    font-size: 13px;
 
 }
 
