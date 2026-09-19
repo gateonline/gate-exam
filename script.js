@@ -958,7 +958,7 @@ function finalSubmit() {
     */
 
     let url =
-        "PASTE_YOUR_SHEET1_WEB_APP_URL_HERE";
+        "https://script.google.com/macros/library/d/104_Cd7b2d1Lm4KhHOijqVjqdlISp2aZkq-Qvf7qvN0MTT3MifRHtjuh6/6";
 
 
     url +=
