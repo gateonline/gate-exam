@@ -153,15 +153,10 @@ function loadQuestion() {
                     <label>
 
                         <input
-
                             type="checkbox"
-
                             name="option"
-
                             value="${i}"
-
                             ${checked ? "checked" : ""}
-
                         >
 
                         ${opt}
@@ -194,15 +189,10 @@ function loadQuestion() {
                     <label>
 
                         <input
-
                             type="radio"
-
                             name="option"
-
                             value="${i}"
-
                             ${checked ? "checked" : ""}
-
                         >
 
                         ${opt}
@@ -307,7 +297,6 @@ function saveCurrentAnswer() {
             parseInt(
                 selected.value
             );
-
 
         return true;
 
@@ -508,9 +497,7 @@ function updatePalette() {
         palette.innerHTML += `
 
             <button
-
                 class="${colorClass}"
-
                 onclick="jump(${i})">
 
                 ${i + 1}
@@ -687,7 +674,7 @@ function confirmSubmit() {
 
 
 /* =====================================================
-   NAME
+   NAME + MOBILE
    ===================================================== */
 
 function openNameModal(autoSubmit) {
@@ -698,6 +685,10 @@ function openNameModal(autoSubmit) {
 
     document.getElementById(
         "candidateName"
+    ).value = "";
+
+    document.getElementById(
+        "candidateMobile"
     ).value = "";
 
     document.getElementById(
@@ -928,7 +919,28 @@ function finalSubmit() {
         ).value.trim();
 
 
+    let mobile =
+        document.getElementById(
+            "candidateMobile"
+        ).value.trim();
+
+
     if (!name) {
+
+        alert(
+            "Please enter your name."
+        );
+
+        return;
+
+    }
+
+
+    if (!mobile) {
+
+        alert(
+            "Please enter your mobile number."
+        );
 
         return;
 
@@ -941,19 +953,25 @@ function finalSubmit() {
 
     /*
        IMPORTANT:
-       Replace this with the Web App URL
-       for the Google Apps Script connected
-       to the appropriate response sheet.
+       Replace the URL below with the Web App URL
+       of the Google Apps Script given below.
     */
 
     let url =
-        "PASTE_YOUR_WEB_APP_URL_HERE";
+        "PASTE_YOUR_SHEET1_WEB_APP_URL_HERE";
 
 
     url +=
         "?name=" +
         encodeURIComponent(
             name
+        );
+
+
+    url +=
+        "&mobile=" +
+        encodeURIComponent(
+            mobile
         );
 
 
