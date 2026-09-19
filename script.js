@@ -80,13 +80,30 @@ function loadQuestion() {
         (q.marks > 1 ? "s" : "");
 
 
-    document.getElementById(
-        "question"
-    ).innerText =
+    let questionHTML =
         "Q" +
         (current + 1) +
-        ". " +
-        q.question;
+        ". [" +
+        q.marks +
+        (q.marks === 1 ? " Mark" : " Marks") +
+        "] " +
+        q.question.replace(/\n/g, "<br>");
+
+
+    if (q.image) {
+
+        questionHTML +=
+            '<br><img src="' +
+            q.image +
+            '" class="question-image" alt="Question illustration">';
+
+    }
+
+
+    document.getElementById(
+        "question"
+    ).innerHTML =
+        questionHTML;
 
 
     let html = "";
@@ -122,7 +139,7 @@ function loadQuestion() {
                 >
 
                 <p class="nat-note">
-                    Enter the numerical answer.
+                    Enter the answer to the required precision.
                 </p>
 
             </div>
@@ -209,15 +226,17 @@ function loadQuestion() {
 
     document.getElementById(
         "options"
-    ).innerHTML = html;
+    ).innerHTML =
+        html;
 
 
     updatePalette();
+
 }
 
 
 /* =====================================================
-   SAVE ANSWER
+   SAVE CURRENT ANSWER
    ===================================================== */
 
 function saveCurrentAnswer() {
@@ -265,7 +284,8 @@ function saveCurrentAnswer() {
         }
 
 
-        answers[current] = value;
+        answers[current] =
+            value;
 
         return true;
 
@@ -354,6 +374,7 @@ function saveCurrentAnswer() {
 
 
     return false;
+
 }
 
 
@@ -397,16 +418,7 @@ function saveNext() {
 
 function prevQuestion() {
 
-    let answered =
-        saveCurrentAnswer();
-
-
-    if (answered) {
-
-        review[current] = false;
-
-    }
-
+    saveCurrentAnswer();
 
     updatePalette();
 
@@ -423,7 +435,7 @@ function prevQuestion() {
 
 
 /* =====================================================
-   CLEAR
+   CLEAR RESPONSE
    ===================================================== */
 
 function clearResponse() {
@@ -453,7 +465,7 @@ function markReview() {
 
 
 /* =====================================================
-   PALETTE
+   QUESTION PALETTE
    ===================================================== */
 
 function updatePalette() {
@@ -512,21 +524,12 @@ function updatePalette() {
 
 
 /* =====================================================
-   JUMP
+   JUMP TO QUESTION
    ===================================================== */
 
 function jump(i) {
 
-    let answered =
-        saveCurrentAnswer();
-
-
-    if (answered) {
-
-        review[current] = false;
-
-    }
-
+    saveCurrentAnswer();
 
     current = i;
 
@@ -633,7 +636,7 @@ function updateTimer() {
 
 
 /* =====================================================
-   SUBMIT
+   SUBMIT EXAM
    ===================================================== */
 
 function submitExam() {
@@ -642,6 +645,7 @@ function submitExam() {
 
     updatePalette();
 
+
     document.getElementById(
         "submitModal"
     ).style.display =
@@ -649,6 +653,10 @@ function submitExam() {
 
 }
 
+
+/* =====================================================
+   CLOSE SUBMIT MODAL
+   ===================================================== */
 
 function closeSubmitModal() {
 
@@ -660,13 +668,13 @@ function closeSubmitModal() {
 }
 
 
+/* =====================================================
+   CONFIRM SUBMIT
+   ===================================================== */
+
 function confirmSubmit() {
 
     closeSubmitModal();
-
-    examEnded = true;
-
-    clearInterval(timerInterval);
 
     openNameModal(false);
 
@@ -674,7 +682,7 @@ function confirmSubmit() {
 
 
 /* =====================================================
-   NAME + MOBILE
+   NAME + MOBILE MODAL
    ===================================================== */
 
 function openNameModal(autoSubmit) {
@@ -683,13 +691,16 @@ function openNameModal(autoSubmit) {
 
     updatePalette();
 
+
     document.getElementById(
         "candidateName"
     ).value = "";
 
+
     document.getElementById(
         "candidateMobile"
     ).value = "";
+
 
     document.getElementById(
         "nameModal"
@@ -711,6 +722,10 @@ function openNameModal(autoSubmit) {
 }
 
 
+/* =====================================================
+   CLOSE NAME MODAL
+   ===================================================== */
+
 function closeNameModal() {
 
     if (examEnded) {
@@ -729,7 +744,7 @@ function closeNameModal() {
 
 
 /* =====================================================
-   SCORE
+   SCORE CALCULATION
    ===================================================== */
 
 function calculateScore() {
@@ -754,7 +769,8 @@ function calculateScore() {
         if (q.type === "NAT") {
 
             if (
-                answers[i] === null
+                answers[i] === null ||
+                answers[i] === undefined
             ) {
 
                 continue;
@@ -778,6 +794,7 @@ function calculateScore() {
                 score += q.marks;
 
             }
+
 
             continue;
 
@@ -852,6 +869,7 @@ function calculateScore() {
 
             }
 
+
             continue;
 
         }
@@ -864,7 +882,8 @@ function calculateScore() {
         if (q.type === "MCQ") {
 
             if (
-                answers[i] === null
+                answers[i] === null ||
+                answers[i] === undefined
             ) {
 
                 continue;
@@ -899,6 +918,12 @@ function calculateScore() {
 
     }
 
+
+    /*
+       IMPORTANT:
+       No score clamping.
+       Negative scores are allowed.
+    */
 
     return Number(
         score.toFixed(2)
@@ -936,10 +961,14 @@ function finalSubmit() {
     }
 
 
-    if (!mobile) {
+    if (
+        !/^[0-9]{10}$/.test(
+            mobile
+        )
+    ) {
 
         alert(
-            "Please enter your mobile number."
+            "Please enter a valid 10-digit mobile number."
         );
 
         return;
@@ -947,19 +976,28 @@ function finalSubmit() {
     }
 
 
+    saveCurrentAnswer();
+
+
     let score =
         calculateScore();
 
 
-    /*
+    /* =================================================
+       GOOGLE APPS SCRIPT WEB APP
+
        IMPORTANT:
        Replace the URL below with the Web App URL
-       of the Google Apps Script given below.
-    */
+       of the Gate 1 Sheet1 Apps Script.
+       ================================================= */
 
     let url =
-        "https://script.google.com/macros/library/d/104_Cd7b2d1Lm4KhHOijqVjqdlISp2aZkq-Qvf7qvN0MTT3MifRHtjuh6/6";
+        "PASTE_GATE_1_SHEET1_WEB_APP_URL_HERE";
 
+
+    /* =================================================
+       CANDIDATE NAME
+       ================================================= */
 
     url +=
         "?name=" +
@@ -968,12 +1006,20 @@ function finalSubmit() {
         );
 
 
+    /* =================================================
+       MOBILE NUMBER
+       ================================================= */
+
     url +=
         "&mobile=" +
         encodeURIComponent(
             mobile
         );
 
+
+    /* =================================================
+       SEND Q1-Q15
+       ================================================= */
 
     for (
         let i = 0;
@@ -983,49 +1029,74 @@ function finalSubmit() {
 
         let answer = "";
 
+        let q =
+            questions[i];
+
 
         if (
-            answers[i] !== null
+            answers[i] !== null &&
+            answers[i] !== undefined
         ) {
 
+
+            /* ============================
+               NAT
+               ============================ */
+
             if (
-                Array.isArray(
-                    answers[i]
-                )
+                q.type === "NAT"
             ) {
 
                 answer =
-                    answers[i]
-                        .map(function(index) {
-
-                            return String.fromCharCode(
-                                65 + index
-                            );
-
-                        })
-                        .join(",");
+                    answers[i];
 
             }
 
-            else {
+
+            /* ============================
+               MSQ
+               ============================ */
+
+            else if (
+                q.type === "MSQ"
+            ) {
 
                 if (
-                    questions[i].type === "MCQ"
+                    Array.isArray(
+                        answers[i]
+                    )
                 ) {
 
                     answer =
-                        String.fromCharCode(
-                            65 + answers[i]
-                        );
+                        answers[i]
+                            .map(
+                                function(index) {
+
+                                    return String.fromCharCode(
+                                        65 + index
+                                    );
+
+                                }
+                            )
+                            .join(",");
 
                 }
 
-                else {
+            }
 
-                    answer =
-                        answers[i];
 
-                }
+            /* ============================
+               MCQ
+               ============================ */
+
+            else if (
+                q.type === "MCQ"
+            ) {
+
+                answer =
+                    String.fromCharCode(
+                        65 + answers[i]
+                    );
 
             }
 
@@ -1043,6 +1114,10 @@ function finalSubmit() {
     }
 
 
+    /* =================================================
+       FINAL SCORE
+       ================================================= */
+
     url +=
         "&score=" +
         encodeURIComponent(
@@ -1050,10 +1125,10 @@ function finalSubmit() {
         );
 
 
-    /*
-       Send to Google Sheets
-       without opening another page.
-    */
+    /* =================================================
+       SEND TO GOOGLE SHEETS
+       WITHOUT LEAVING EXAM PAGE
+       ================================================= */
 
     let iframe =
         document.createElement(
@@ -1074,6 +1149,18 @@ function finalSubmit() {
     );
 
 
+    /* =================================================
+       EXAM FINISHED
+       ================================================= */
+
+    examEnded = true;
+
+
+    clearInterval(
+        timerInterval
+    );
+
+
     document.getElementById(
         "nameModal"
     ).style.display =
@@ -1083,13 +1170,17 @@ function finalSubmit() {
     document.getElementById(
         "resultName"
     ).innerText =
-        "Candidate: " + name;
+        "Candidate: " +
+        name +
+        " | Mobile: " +
+        mobile;
 
 
     document.getElementById(
         "resultScore"
     ).innerText =
-        score + " / 24";
+        score.toFixed(2) +
+        " / 24";
 
 
     document.getElementById(
