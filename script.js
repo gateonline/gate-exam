@@ -992,7 +992,7 @@ function finalSubmit() {
        ================================================= */
 
     let url =
-        "PASTE_GATE_1_SHEET1_WEB_APP_URL_HERE";
+        "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
 
 
     /* =================================================
