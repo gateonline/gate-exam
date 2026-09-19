@@ -36,6 +36,7 @@
 
         </div>
 
+
         <button
             id="calculatorButton"
             class="calculator-button"
@@ -49,6 +50,7 @@
     </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -115,9 +117,7 @@
         </div>
 
 
-        <!-- =================================================
-             TEST INSTRUCTIONS
-             ================================================= -->
+        <!-- TEST INSTRUCTIONS -->
 
         <h3>
             Test Instructions
@@ -133,6 +133,11 @@
             <li>
                 The total duration is
                 <strong>60 minutes</strong>.
+            </li>
+
+            <li>
+                The total marks are
+                <strong>24</strong>.
             </li>
 
             <li>
@@ -181,15 +186,13 @@
             <li>
                 The examination will be
                 <strong>automatically submitted</strong>
-                when the timer reaches 00:00.
+                after 1 hour.
             </li>
 
         </ul>
 
 
-        <!-- =================================================
-             QUESTION TYPES
-             ================================================= -->
+        <!-- QUESTION TYPES -->
 
         <h3>
             Question Types
@@ -215,9 +218,7 @@
         </ul>
 
 
-        <!-- =================================================
-             MARKING SCHEME
-             ================================================= -->
+        <!-- MARKING SCHEME -->
 
         <h3>
             Marking Scheme
@@ -311,10 +312,6 @@
         </div>
 
 
-        <!-- =================================================
-             IMPORTANT NOTE
-             ================================================= -->
-
         <div class="important-note">
 
             <strong>
@@ -329,8 +326,6 @@
         </div>
 
 
-        <!-- START BUTTON -->
-
         <button
             id="startButton"
             class="start-button"
@@ -343,6 +338,7 @@
     </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -399,9 +395,7 @@
     </div>
 
 
-    <!-- =================================================
-         QUESTION PALETTE
-         ================================================= -->
+    <!-- QUESTION PALETTE -->
 
     <div class="palette-section">
 
@@ -451,6 +445,7 @@
 
         </div>
 
+
         <div
             class="palette"
             id="palette">
@@ -459,6 +454,7 @@
     </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -494,65 +490,116 @@
 
         <div class="calc-buttons">
 
-            <button onclick="calcClear()">C</button>
+            <button onclick="calcClear()">
+                C
+            </button>
 
-            <button onclick="calcBackspace()">DEL</button>
+            <button onclick="calcBackspace()">
+                DEL
+            </button>
 
-            <button onclick="calcInput('(')">(</button>
+            <button onclick="calcInput('(')">
+                (
+            </button>
 
-            <button onclick="calcInput(')')">)</button>
+            <button onclick="calcInput(')')">
+                )
+            </button>
 
-            <button onclick="calcInput('/')">÷</button>
-
-
-            <button onclick="calcInput('7')">7</button>
-
-            <button onclick="calcInput('8')">8</button>
-
-            <button onclick="calcInput('9')">9</button>
-
-            <button onclick="calcInput('*')">×</button>
-
-            <button onclick="calcInput('sqrt(')">√</button>
-
-
-            <button onclick="calcInput('4')">4</button>
-
-            <button onclick="calcInput('5')">5</button>
-
-            <button onclick="calcInput('6')">6</button>
-
-            <button onclick="calcInput('-')">−</button>
-
-            <button onclick="calcInput('^')">xʸ</button>
+            <button onclick="calcInput('/')">
+                ÷
+            </button>
 
 
-            <button onclick="calcInput('1')">1</button>
+            <button onclick="calcInput('7')">
+                7
+            </button>
 
-            <button onclick="calcInput('2')">2</button>
+            <button onclick="calcInput('8')">
+                8
+            </button>
 
-            <button onclick="calcInput('3')">3</button>
+            <button onclick="calcInput('9')">
+                9
+            </button>
 
-            <button onclick="calcInput('+')">+</button>
+            <button onclick="calcInput('*')">
+                ×
+            </button>
 
-            <button onclick="calcInput('Math.PI')">π</button>
+            <button onclick="calcInput('sqrt(')">
+                √
+            </button>
 
 
-            <button onclick="calcInput('0')">0</button>
+            <button onclick="calcInput('4')">
+                4
+            </button>
 
-            <button onclick="calcInput('.')">.</button>
+            <button onclick="calcInput('5')">
+                5
+            </button>
 
-            <button onclick="calcInput('Math.sin(')">sin</button>
+            <button onclick="calcInput('6')">
+                6
+            </button>
 
-            <button onclick="calcInput('Math.cos(')">cos</button>
+            <button onclick="calcInput('-')">
+                −
+            </button>
 
-            <button onclick="calculateResult()">=</button>
+            <button onclick="calcInput('^')">
+                xʸ
+            </button>
+
+
+            <button onclick="calcInput('1')">
+                1
+            </button>
+
+            <button onclick="calcInput('2')">
+                2
+            </button>
+
+            <button onclick="calcInput('3')">
+                3
+            </button>
+
+            <button onclick="calcInput('+')">
+                +
+            </button>
+
+            <button onclick="calcInput('Math.PI')">
+                π
+            </button>
+
+
+            <button onclick="calcInput('0')">
+                0
+            </button>
+
+            <button onclick="calcInput('.')">
+                .
+            </button>
+
+            <button onclick="calcInput('Math.sin(')">
+                sin
+            </button>
+
+            <button onclick="calcInput('Math.cos(')">
+                cos
+            </button>
+
+            <button onclick="calculateResult()">
+                =
+            </button>
 
         </div>
 
     </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -599,6 +646,7 @@
 </div>
 
 
+
 <!-- =====================================================
      NAME + MOBILE ENTRY
      ===================================================== -->
@@ -610,14 +658,13 @@
     <div class="modal-box">
 
         <h2>
-            Candidate Details
+            Enter Your Name
         </h2>
 
         <p>
             Please enter your details before
             submitting the examination.
         </p>
-
 
         <input
             type="text"
@@ -627,19 +674,17 @@
             autocomplete="off"
         >
 
-
-        <br><br>
-
+        <br>
 
         <input
             type="tel"
             id="candidateMobile"
             class="name-input"
-            placeholder="Enter your mobile number"
+            placeholder="Enter 10-digit mobile number"
             inputmode="numeric"
-            autocomplete="off"
+            maxlength="10"
+            autocomplete="tel"
         >
-
 
         <div class="modal-buttons">
 
@@ -664,6 +709,7 @@
     </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -706,13 +752,14 @@
 </div>
 
 
+
 <!-- =====================================================
      JAVASCRIPT
      ===================================================== -->
 
-<script src="questions.js?v=5"></script>
+<script src="questions.js?v=6"></script>
 
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
 
 
 </body>
