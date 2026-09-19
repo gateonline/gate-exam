@@ -10,7 +10,7 @@ let examEnded = false;
 
 let timerInterval;
 
-const EXAM_TIME = 30 * 60;
+const EXAM_TIME = 60 * 60;
 
 
 /* =====================================================
@@ -112,8 +112,7 @@ function loadQuestion() {
                 <input
                     type="number"
                     id="natInput"
-                    step="0.01"
-                    min="0"
+                    step="any"
                     placeholder="Enter answer"
                     value="${
                         previous !== null
@@ -123,7 +122,7 @@ function loadQuestion() {
                 >
 
                 <p class="nat-note">
-                    Enter the answer correct to TWO decimal places.
+                    Enter the numerical answer.
                 </p>
 
             </div>
@@ -261,11 +260,22 @@ function saveCurrentAnswer() {
         }
 
 
-        answers[current] =
+        let value =
             parseFloat(
                 input.value
             );
 
+
+        if (isNaN(value)) {
+
+            answers[current] = null;
+
+            return false;
+
+        }
+
+
+        answers[current] = value;
 
         return true;
 
@@ -761,16 +771,17 @@ function calculateScore() {
             }
 
 
-            /*
-               Allow answer within
-               0.01 tolerance.
-            */
+            let tolerance =
+                q.tolerance !== undefined
+                ? q.tolerance
+                : 0.01;
+
 
             if (
                 Math.abs(
                     answers[i] -
                     q.answer
-                ) <= 0.01
+                ) <= tolerance
             ) {
 
                 score += q.marks;
@@ -803,7 +814,7 @@ function calculateScore() {
                 answers[i]
                     .slice()
                     .sort(
-                        (a,b) => a-b
+                        (a, b) => a - b
                     );
 
 
@@ -811,7 +822,7 @@ function calculateScore() {
                 q.correctAnswers
                     .slice()
                     .sort(
-                        (a,b) => a-b
+                        (a, b) => a - b
                     );
 
 
@@ -843,12 +854,6 @@ function calculateScore() {
 
             }
 
-
-            /*
-               MSQ:
-               Correct = +marks
-               Wrong = 0
-            */
 
             if (isCorrect) {
 
@@ -888,10 +893,14 @@ function calculateScore() {
             else {
 
                 /*
-                   Wrong MCQ = -1
+                   GATE-style negative marking
+
+                   1-mark MCQ = -1/3
+                   2-mark MCQ = -2/3
                 */
 
-                score -= 1;
+                score -=
+                    q.marks / 3;
 
             }
 
@@ -900,7 +909,10 @@ function calculateScore() {
     }
 
 
-    return score;
+    return Number(
+        score.toFixed(2)
+    );
+
 }
 
 
@@ -927,8 +939,15 @@ function finalSubmit() {
         calculateScore();
 
 
+    /*
+       IMPORTANT:
+       Replace this with the Web App URL
+       for the Google Apps Script connected
+       to the appropriate response sheet.
+    */
+
     let url =
-        "https://script.google.com/macros/s/AKfycbyp-6oaHho0YJ_dh_m7S189TUghfzsTs_3YvRxkchmsCzuCfUPOjlK7CtzgXqGSM71d/exec";
+        "PASTE_YOUR_WEB_APP_URL_HERE";
 
 
     url +=
@@ -958,14 +977,37 @@ function finalSubmit() {
             ) {
 
                 answer =
-                    answers[i].join(",");
+                    answers[i]
+                        .map(function(index) {
+
+                            return String.fromCharCode(
+                                65 + index
+                            );
+
+                        })
+                        .join(",");
 
             }
 
             else {
 
-                answer =
-                    answers[i];
+                if (
+                    questions[i].type === "MCQ"
+                ) {
+
+                    answer =
+                        String.fromCharCode(
+                            65 + answers[i]
+                        );
+
+                }
+
+                else {
+
+                    answer =
+                        answers[i];
+
+                }
 
             }
 
@@ -1019,14 +1061,6 @@ function finalSubmit() {
     ).style.display =
         "none";
 
-
-    /*
-       Maximum score:
-       Q1-6 = 6
-       Q7-8 = 4
-       Q9-15 = 14
-       TOTAL = 24
-    */
 
     document.getElementById(
         "resultName"
